@@ -1,0 +1,67 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/color_primary</item>
+        <item name="colorPrimaryDark">@color/system_ui_scrim_black</item>
+        <item name="colorSecondary">?attr/colorPrimary</item>
+        <item name="colorOnSecondary">@color/color_on_secondary</item>
+
+        <!-- Window decor -->
+        <item name="android:navigationBarColor">@color/system_ui_scrim_black</item>
+
+        <!-- Widgets -->
+        <item name="toolbarStyle">@style/Widget.RemoteVLCApp.Toolbar</item>
+    </style>
+
+    <style name="Widget" />
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="ThemeOverlay.RemoteVLCApp.Dark" parent="ThemeOverlay.MaterialComponents.Dark">
+        <item name="colorPrimary">@color/carolina_blue</item>
+        <item name="colorPrimaryDark">@color/cornflower_blue</item>
+    </style>
+
+    <style name="TextAppearance.RemoteVLCApp.ToolbarTitle" parent="@style/TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <item name="android:fontFamily">@font/google_sans</item>
+        <item name="android:textSize" tools:ignore="SpUsage">20dp</item>
+    </style>
+
+    <style name="Widget.RemoteVLCApp.AppBar" parent="@style/Widget.Design.AppBarLayout">
+        <item name="android:background">?attr/colorSurface</item>
+        <item name="android:elevation">8dp</item>
+    </style>
+
+    <style name="Widget.RemoteVLCApp.Toolbar" parent="Widget.MaterialComponents.Toolbar">
+        <item name="android:paddingEnd">8dp</item>
+        <item name="titleTextAppearance">@style/TextAppearance.RemoteVLCApp.ToolbarTitle</item>
+    </style>
+
+    <style name="Widget.TextInputEditText">
+        <item name="android:background">@color/transparent</item>
+        <item name="android:paddingStart">0dp</item>
+        <item name="android:paddingEnd">0dp</item>
+        <item name="android:singleLine">true</item>
+    </style>
+
+    <style name="Widget.ActionButton" parent="Widget.AppCompat.Button.Borderless">
+        <item name="android:tint">@color/defaultButtonColor</item>
+    </style>
+
+    <style name="Widget.RemoteButton" parent="Widget.ActionButton">
+        <item name="android:background">@drawable/remote_button_ripple</item>
+        <item name="android:layout_margin">6dp</item>
+    </style>
+
+    <style name="Widget.GridNavigationButton" parent="Widget.AppCompat.Button.Borderless">
+        <item name="android:tint">@color/color_primary</item>
+        <item name="android:layout_rowWeight">1</item>
+        <item name="android:layout_columnWeight">1</item>
+        <item name="android:layout_margin">4dp</item>
+        <item name="android:background">@drawable/remote_button_ripple</item>
+    </style>
+
+</resources>

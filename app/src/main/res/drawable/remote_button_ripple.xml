@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ripple xmlns:android="http://schemas.android.com/apk/res/android"
+    android:color="@color/white">
+
+    <item android:id="@android:id/mask">
+        <color android:color="#60ffffff" />
+    </item>
+    <!-- Selected state of item -->
+    <item>
+        <selector>
+            <item android:state_selected="false">
+                <color android:color="@color/remote_button_background" />
+            </item>
+        </selector>
+    </item>
+</ripple>

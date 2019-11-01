@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/navigation_remote">
+
+    <fragment
+        android:id="@+id/navigation_remote"
+        android:name="com.example.android.remotevlcapp.ui.remote.RemoteFragment"
+        tools:layout="@layout/fragment_remote" />
+
+    <fragment
+        android:id="@+id/navigation_browse"
+        android:name="com.example.android.remotevlcapp.ui.browse.BrowseFragment"
+        tools:layout="@layout/fragment_browse" />
+
+    <fragment
+        android:id="@+id/navigation_hosts"
+        android:name="com.example.android.remotevlcapp.ui.hosts.list.HostListFragment"
+        tools:layout="@layout/fragment_host_list">
+
+        <!--        <action-->
+        <!--            android:id="@+id/to_host_search"-->
+        <!--            app:destination="@id/navigation_host_search"-->
+        <!--            app:enterAnim="@anim/fade_in"-->
+        <!--            app:exitAnim="@anim/fade_out"-->
+        <!--            app:popEnterAnim="@anim/fade_in"-->
+        <!--            app:popExitAnim="@anim/fade_out"/>-->
+        <!--        <action-->
+        <!--            android:id="@+id/to_host_configuration"-->
+        <!--            app:destination="@id/navigation_host_configuration"-->
+        <!--            app:enterAnim="@anim/fade_in"-->
+        <!--            app:exitAnim="@anim/fade_out"-->
+        <!--            app:popEnterAnim="@anim/fade_in"-->
+        <!--            app:popExitAnim="@anim/fade_out"/>-->
+
+        <action
+            android:id="@+id/to_host_search"
+            app:destination="@id/navigation_host_search"
+            app:enterAnim="@android:animator/fade_in"
+            app:exitAnim="@android:animator/fade_out"
+            app:popEnterAnim="@android:animator/fade_in"
+            app:popExitAnim="@android:animator/fade_out" />
+        <action
+            android:id="@+id/to_host_configuration"
+            app:destination="@id/navigation_host_configuration"
+            app:enterAnim="@android:animator/fade_in"
+            app:exitAnim="@android:animator/fade_out"
+            app:popEnterAnim="@android:animator/fade_in"
+            app:popExitAnim="@android:animator/fade_out" />
+    </fragment>
+    <fragment
+        android:id="@+id/navigation_host_search"
+        android:name="com.example.android.remotevlcapp.ui.hosts.search.HostSearchFragment"
+        tools:layout="@layout/fragment_host_search">
+        <!--        <action-->
+        <!--            android:id="@+id/to_add_host_fragment"-->
+        <!--            app:destination="@id/navigation_host_configuration"-->
+        <!--            app:enterAnim="@anim/fade_in"-->
+        <!--            app:exitAnim="@anim/fade_out"-->
+        <!--            app:popEnterAnim="@anim/fade_in"-->
+        <!--            app:popExitAnim="@anim/fade_out"/>-->
+
+        <action
+            android:id="@+id/to_add_host_fragment"
+            app:destination="@id/navigation_host_configuration"
+            app:enterAnim="@android:animator/fade_in"
+            app:exitAnim="@android:animator/fade_out"
+            app:popEnterAnim="@android:animator/fade_in"
+            app:popExitAnim="@android:animator/fade_out" />
+    </fragment>
+    <fragment
+        android:id="@+id/navigation_host_configuration"
+        android:name="com.example.android.remotevlcapp.ui.hosts.configuration.HostConfigurationFragment"
+        tools:layout="@layout/fragment_host_configuration">
+
+        <argument
+            android:name="hostId"
+            android:defaultValue="0"
+            app:argType="integer" />
+        <argument
+            android:name="hostName"
+            android:defaultValue="@null"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="hostAddress"
+            android:defaultValue="@null"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="hostPort"
+            android:defaultValue="@null"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="hostPassword"
+            android:defaultValue="@null"
+            app:argType="string"
+            app:nullable="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/navigation_settings"
+        android:name="com.example.android.remotevlcapp.ui.settings.SettingsFragment"
+        tools:layout="@layout/fragment_settings" />
+
+</navigation>

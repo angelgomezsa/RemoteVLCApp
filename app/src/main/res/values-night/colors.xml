@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="color_primary">@color/carolina_blue</color>
+    <color name="color_primary_dark">@color/cornflower_blue</color>
+    <color name="color_on_secondary">@color/black</color>
+
+    <color name="color_control_light">#2EFFFFFF</color> <!-- 18% white -->
+
+    <!-- Scrim colors -->
+    <color name="system_ui_scrim_light">#2EFFFFFF</color> <!-- 18% white -->
+    <color name="system_ui_scrim_black">#B3000000</color> <!-- 70% black -->
+
+    <color name="defaultButtonColor">@color/white</color>
+</resources>

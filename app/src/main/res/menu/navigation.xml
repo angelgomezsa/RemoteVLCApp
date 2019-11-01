@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group
+        android:id="@+id/nav_first_group"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/navigation_remote"
+            android:icon="@drawable/ic_remote"
+            android:title="@string/nav_remote" />
+
+        <item
+            android:id="@+id/navigation_browse"
+            android:icon="@drawable/ic_folder_open"
+            android:title="@string/nav_browse" />
+
+        <item
+            android:id="@+id/navigation_hosts"
+            android:icon="@drawable/ic_devices"
+            android:title="@string/nav_media_centers" />
+    </group>
+
+    <group
+        android:id="@+id/nav_second_group"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/navigation_settings"
+            android:icon="@drawable/ic_settings"
+            android:title="@string/nav_settings" />
+    </group>
+
+</menu>
