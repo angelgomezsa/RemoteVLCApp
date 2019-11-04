@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">RemoteVLCApp</string>
+
+    <string name="rewind">Rewind</string>
+    <string name="fast_forward">Fast forward</string>
+    <string name="stop">Stop</string>
+    <string name="play_pause">Play pause</string>
+</resources>
