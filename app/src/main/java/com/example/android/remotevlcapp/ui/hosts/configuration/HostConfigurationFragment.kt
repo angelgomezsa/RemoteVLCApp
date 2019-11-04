@@ -10,10 +10,10 @@ import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
+import com.example.android.core.domain.host.AuthenticationException
+import com.example.android.core.result.EventObserver
+import com.example.android.model.HostInfo
 import com.example.android.remotevlcapp.R
-import com.example.android.remotevlcapp.domain.host.AuthenticationException
-import com.example.android.remotevlcapp.event.EventObserver
-import com.example.android.remotevlcapp.model.HostInfo
 import com.example.android.remotevlcapp.ui.MainNavigationFragment
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.android.synthetic.main.fragment_host_configuration.*

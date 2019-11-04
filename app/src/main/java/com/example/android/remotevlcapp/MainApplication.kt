@@ -2,10 +2,10 @@ package com.example.android.remotevlcapp
 
 import android.content.Context
 import androidx.appcompat.app.AppCompatDelegate
-import com.example.android.remotevlcapp.data.PreferenceStorage.Companion.PREFS_NAME
-import com.example.android.remotevlcapp.data.PreferenceStorage.Companion.PREF_THEME
+import com.example.android.core.data.PreferenceStorage.Companion.PREFS_NAME
+import com.example.android.core.data.PreferenceStorage.Companion.PREF_THEME
+import com.example.android.model.Theme
 import com.example.android.remotevlcapp.di.DaggerAppComponent
-import com.example.android.remotevlcapp.model.Theme
 import dagger.android.AndroidInjector
 import dagger.android.DaggerApplication
 import timber.log.Timber

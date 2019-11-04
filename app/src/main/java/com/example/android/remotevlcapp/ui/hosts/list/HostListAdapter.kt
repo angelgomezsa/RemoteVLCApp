@@ -8,8 +8,8 @@ import androidx.appcompat.widget.PopupMenu
 import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
+import com.example.android.model.HostInfo
 import com.example.android.remotevlcapp.R
-import com.example.android.remotevlcapp.model.HostInfo
 import com.example.android.remotevlcapp.util.HostDiff
 import kotlinx.android.synthetic.main.item_host.view.*
 

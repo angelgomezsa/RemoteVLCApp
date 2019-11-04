@@ -10,8 +10,8 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
+import com.example.android.model.HostInfo
 import com.example.android.remotevlcapp.R
-import com.example.android.remotevlcapp.model.HostInfo
 import com.example.android.remotevlcapp.ui.MainNavigationFragment
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.android.synthetic.main.fragment_host_list.*

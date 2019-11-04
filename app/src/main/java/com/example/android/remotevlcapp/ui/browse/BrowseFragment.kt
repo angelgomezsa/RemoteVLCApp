@@ -13,10 +13,10 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.android.core.result.EventObserver
+import com.example.android.core.result.Result
+import com.example.android.model.FileInfo
 import com.example.android.remotevlcapp.R
-import com.example.android.remotevlcapp.event.EventObserver
-import com.example.android.remotevlcapp.event.Result
-import com.example.android.remotevlcapp.model.FileInfo
 import com.example.android.remotevlcapp.ui.MainNavigationFragment
 import com.example.android.remotevlcapp.util.dpToPx
 import com.example.android.remotevlcapp.widget.BottomSheetBehavior

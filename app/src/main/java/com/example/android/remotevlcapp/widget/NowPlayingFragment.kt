@@ -7,9 +7,9 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
+import com.example.android.core.result.Result
+import com.example.android.model.VLCPlayer
 import com.example.android.remotevlcapp.R
-import com.example.android.remotevlcapp.event.Result
-import com.example.android.remotevlcapp.model.VLCPlayer
 import com.example.android.remotevlcapp.ui.MainActivityViewModel
 import com.example.android.remotevlcapp.widget.BottomSheetBehavior.Companion.STATE_HIDDEN
 import dagger.android.support.DaggerFragment

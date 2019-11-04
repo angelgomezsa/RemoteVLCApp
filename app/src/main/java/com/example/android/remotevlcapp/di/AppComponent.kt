@@ -1,9 +1,7 @@
 package com.example.android.remotevlcapp.di
 
+import com.example.android.core.di.ViewModelModule
 import com.example.android.remotevlcapp.MainApplication
-import com.example.android.remotevlcapp.di.module.ActivityBindingModule
-import com.example.android.remotevlcapp.di.module.AppModule
-import com.example.android.remotevlcapp.di.module.ServiceBindingModule
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjector

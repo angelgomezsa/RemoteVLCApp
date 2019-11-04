@@ -2,11 +2,11 @@ package com.example.android.remotevlcapp.ui.browse
 
 import android.net.Uri
 import androidx.lifecycle.*
-import com.example.android.remotevlcapp.domain.browse.BrowseUseCase
-import com.example.android.remotevlcapp.domain.browse.OpenFileUseCase
-import com.example.android.remotevlcapp.event.Event
-import com.example.android.remotevlcapp.event.Result
-import com.example.android.remotevlcapp.model.FileInfo
+import com.example.android.core.domain.browse.BrowseUseCase
+import com.example.android.core.domain.browse.OpenFileUseCase
+import com.example.android.core.result.Event
+import com.example.android.core.result.Result
+import com.example.android.model.FileInfo
 import com.example.android.remotevlcapp.util.formatPathFromUri
 import com.example.android.remotevlcapp.util.formatUri
 import kotlinx.coroutines.Dispatchers

@@ -3,11 +3,11 @@ package com.example.android.remotevlcapp.ui.hosts.list
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.android.remotevlcapp.domain.host.DeleteHostUseCase
-import com.example.android.remotevlcapp.domain.host.GetCurrentHostUseCase
-import com.example.android.remotevlcapp.domain.host.LoadAllHostsUseCase
-import com.example.android.remotevlcapp.domain.host.SwitchHostUseCase
-import com.example.android.remotevlcapp.model.HostInfo
+import com.example.android.core.domain.host.DeleteHostUseCase
+import com.example.android.core.domain.host.GetCurrentHostUseCase
+import com.example.android.core.domain.host.LoadAllHostsUseCase
+import com.example.android.core.domain.host.SwitchHostUseCase
+import com.example.android.model.HostInfo
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject

@@ -1,7 +1,7 @@
 package com.example.android.remotevlcapp.ui.settings
 
 import androidx.lifecycle.ViewModel
-import com.example.android.remotevlcapp.domain.settings.*
+import com.example.android.core.domain.settings.*
 import javax.inject.Inject
 
 class SettingsViewModel @Inject constructor(

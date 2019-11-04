@@ -8,9 +8,9 @@ import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
+import com.example.android.core.result.Result
+import com.example.android.model.FileInfo
 import com.example.android.remotevlcapp.R
-import com.example.android.remotevlcapp.event.Result
-import com.example.android.remotevlcapp.model.FileInfo
 import com.example.android.remotevlcapp.ui.browse.BrowseViewHolder.FileInfoViewHolder
 import com.example.android.remotevlcapp.ui.browse.BrowseViewHolder.InformationViewHolder
 import com.example.android.remotevlcapp.util.formatFileSize

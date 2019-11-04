@@ -13,13 +13,15 @@ import androidx.navigation.NavOptions
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
+import com.example.android.core.util.updateForTheme
 import com.example.android.remotevlcapp.R
-import com.example.android.remotevlcapp.util.updateForTheme
 import dagger.android.support.DaggerAppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 
+
 class MainActivity : DaggerAppCompatActivity(), NavigationHost {
+
     companion object {
         private val TOP_LEVEL_DESTINATIONS = setOf(
             R.id.navigation_remote,
@@ -43,6 +45,7 @@ class MainActivity : DaggerAppCompatActivity(), NavigationHost {
 
         viewModel =
             ViewModelProviders.of(this, viewModelFactory).get(MainActivityViewModel::class.java)
+
         drawer = findViewById(R.id.drawer_layout)
         navController = findNavController(R.id.nav_host_fragment)
 
@@ -105,6 +108,7 @@ class MainActivity : DaggerAppCompatActivity(), NavigationHost {
         }
 
         viewModel.theme.observe(this, Observer(::updateForTheme))
+
     }
 
     override fun registerToolbarWithNavigation(toolbar: Toolbar) {

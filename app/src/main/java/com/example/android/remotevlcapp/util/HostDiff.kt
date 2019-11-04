@@ -1,7 +1,7 @@
 package com.example.android.remotevlcapp.util
 
 import androidx.recyclerview.widget.DiffUtil
-import com.example.android.remotevlcapp.model.HostInfo
+import com.example.android.model.HostInfo
 
 object HostDiff : DiffUtil.ItemCallback<HostInfo>() {
 

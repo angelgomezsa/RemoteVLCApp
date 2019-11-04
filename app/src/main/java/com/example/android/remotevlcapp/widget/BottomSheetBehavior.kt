@@ -30,9 +30,9 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout.Behavior
 import androidx.core.view.ViewCompat
 import androidx.customview.view.AbsSavedState
 import androidx.customview.widget.ViewDragHelper
+import com.example.android.core.util.readBooleanUsingCompat
+import com.example.android.core.util.writeBooleanUsingCompat
 import com.example.android.remotevlcapp.R
-import com.example.android.remotevlcapp.util.readBooleanUsingCompat
-import com.example.android.remotevlcapp.util.writeBooleanUsingCompat
 import java.lang.ref.WeakReference
 import kotlin.math.absoluteValue
 

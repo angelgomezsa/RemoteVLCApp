@@ -5,8 +5,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.example.android.model.HostInfo
 import com.example.android.remotevlcapp.R
-import com.example.android.remotevlcapp.model.HostInfo
 import com.example.android.remotevlcapp.util.HostDiff
 import kotlinx.android.synthetic.main.item_host.view.*
 
