@@ -74,11 +74,11 @@ class NotificationService : LifecycleService() {
         })
     }
 
-    override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
+    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         super.onStartCommand(intent, flags, startId)
 
         mediaServer.isNotificationServiceRunning = true
-        requireNotNull(intent.extras).apply {
+        requireNotNull(intent?.extras).apply {
             state = getString(EXTRAS_STATE, "")
             filename = getString(EXTRAS_FILENAME, "")
         }
