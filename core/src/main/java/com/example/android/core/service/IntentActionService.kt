@@ -19,7 +19,7 @@ class IntentActionService : DaggerService() {
     lateinit var sendCommandUseCase: SendCommandUseCase
 
     private val job = SupervisorJob()
-    private val coroutineScope = CoroutineScope(Dispatchers.IO + job)
+    private val coroutineScope = CoroutineScope(job)
 
     companion object {
         const val ACTION_PLAY = "action_play"
@@ -34,29 +34,21 @@ class IntentActionService : DaggerService() {
     }
 
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
-        when (intent.action) {
-            ACTION_PLAY -> {
-                coroutineScope.launch {
+        coroutineScope.launch {
+            when (intent.action) {
+                ACTION_PLAY -> {
                     sendCommandUseCase.execute(SendCommandParameters("pl_forceresume"))
                 }
-            }
-            ACTION_PAUSE -> {
-                coroutineScope.launch {
+                ACTION_PAUSE -> {
                     sendCommandUseCase.execute(SendCommandParameters("pl_forcepause"))
                 }
-            }
-            ACTION_STOP -> {
-                coroutineScope.launch {
+                ACTION_STOP -> {
                     sendCommandUseCase.execute(SendCommandParameters("pl_stop"))
                 }
-            }
-            ACTION_FAST_FORWARD -> {
-                coroutineScope.launch {
+                ACTION_FAST_FORWARD -> {
                     sendCommandUseCase.execute(SendCommandParameters("seek", "+15S"))
                 }
-            }
-            ACTION_REWIND -> {
-                coroutineScope.launch {
+                ACTION_REWIND -> {
                     sendCommandUseCase.execute(SendCommandParameters("seek", "-15S"))
                 }
             }

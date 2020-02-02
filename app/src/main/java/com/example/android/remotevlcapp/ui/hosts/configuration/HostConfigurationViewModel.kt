@@ -10,7 +10,6 @@ import com.example.android.core.domain.host.UpdateHostUseCase
 import com.example.android.core.result.Event
 import com.example.android.core.result.Result
 import com.example.android.model.HostInfo
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -27,7 +26,7 @@ class HostConfigurationViewModel @Inject constructor(
     val hostEvent: LiveData<Event<Boolean>> = _hostEvent
 
     fun checkHostConnection(host: HostInfo) {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             val result = checkHostConnectionUseCase(host)
             when (result) {
                 is Result.Success -> {
@@ -37,7 +36,7 @@ class HostConfigurationViewModel @Inject constructor(
                         updateHost(result.data)
                     }
                 }
-                is Result.Error -> _error.postValue(Event(result.exception))
+                is Result.Error -> _error.value = Event(result.exception)
             }
         }
     }
@@ -45,14 +44,14 @@ class HostConfigurationViewModel @Inject constructor(
     private suspend fun addHost(host: HostInfo) {
         val result = addHostUseCase(host)
         if (result is Result.Success) {
-            _hostEvent.postValue(Event(result.data))
+            _hostEvent.value = Event(result.data)
         }
     }
 
     private suspend fun updateHost(host: HostInfo) {
         val result = updateHostUseCase(host)
         if (result is Result.Success) {
-            _hostEvent.postValue(Event(result.data))
+            _hostEvent.value = Event(result.data)
         }
     }
 }

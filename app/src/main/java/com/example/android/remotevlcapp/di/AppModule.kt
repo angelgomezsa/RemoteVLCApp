@@ -1,7 +1,6 @@
 package com.example.android.remotevlcapp.di
 
 import android.content.Context
-import androidx.room.Room
 import com.example.android.core.data.AppDatabase
 import com.example.android.core.data.MediaServer
 import com.example.android.core.data.PreferenceStorage
@@ -32,14 +31,7 @@ class AppModule {
 
     @Singleton
     @Provides
-    fun provideDatabase(context: Context): AppDatabase {
-        return Room.databaseBuilder(
-            context,
-            AppDatabase::class.java,
-            "remote-vlc-database"
-        )
-            .build()
-    }
+    fun provideDatabase(context: Context): AppDatabase = AppDatabase.buildDatabase(context)
 
     @Singleton
     @Provides

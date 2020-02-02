@@ -50,7 +50,7 @@ class MediaServer @Inject constructor(
             try {
                 val status = vlcService.getStatus()
                 emit(Result.Success(status))
-                Timber.d("checking status")
+//                Timber.d("checking status")
 
                 if (!isNotificationServiceRunning && preferenceStorage.isNotificationsEnabled) {
                     val state = status.state
@@ -99,7 +99,6 @@ class MediaServer @Inject constructor(
         vlcService = retrofit.create(VLCService::class.java)
         preferenceStorage.currentHostId = host.id
         _currentHost.postValue(host)
-        Timber.d("Test")
     }
 
     suspend fun browse(uri: String): List<FileInfo> {
@@ -120,6 +119,7 @@ class MediaServer @Inject constructor(
     }
 
     private fun startNotificationService(state: String, filename: String) {
+        if (filename.isBlank()) return
         val intent = Intent(context, NotificationService::class.java).apply {
             putExtra(EXTRAS_STATE, state)
             putExtra(EXTRAS_FILENAME, filename)

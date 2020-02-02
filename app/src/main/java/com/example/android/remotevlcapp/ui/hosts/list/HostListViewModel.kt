@@ -25,13 +25,13 @@ class HostListViewModel @Inject constructor(
         get() = getCurrentHostUseCase.execute()
 
     fun deleteHost(host: HostInfo) {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             deleteHostUseCase(host)
         }
     }
 
     fun switchHost(host: HostInfo) {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             switchHostUseCase(host)
         }
     }

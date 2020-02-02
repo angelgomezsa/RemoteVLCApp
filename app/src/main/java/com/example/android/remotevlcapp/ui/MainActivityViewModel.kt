@@ -10,7 +10,6 @@ import com.example.android.core.domain.settings.GetKeepScreenOnUseCase
 import com.example.android.core.domain.settings.ObserveThemeUseCase
 import com.example.android.core.result.Result
 import com.example.android.model.Status
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -28,13 +27,13 @@ class MainActivityViewModel @Inject constructor(
         get() = getKeepScreenOnUseCase.execute()
 
     fun sendCommand(command: String) {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             sendCommandUseCase.execute(SendCommandParameters(command))
         }
     }
 
     fun sendCommand(command: String, value: String) {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             sendCommandUseCase.execute(SendCommandParameters(command, value))
         }
     }

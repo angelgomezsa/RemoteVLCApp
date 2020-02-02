@@ -25,13 +25,13 @@ class RemoteViewModel @Inject constructor(
     val currentHost: LiveData<HostInfo> = observeCurrentHostUseCase.execute()
 
     fun sendCommand(command: String) {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             sendCommandUseCase.execute(SendCommandParameters(command))
         }
     }
 
     fun sendCommand(command: String, value: String) {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             sendCommandUseCase.execute(SendCommandParameters(command, value))
         }
     }

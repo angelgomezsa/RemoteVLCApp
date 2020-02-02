@@ -3,6 +3,8 @@ package com.example.android.core.domain.host
 import com.example.android.core.data.AppDatabase
 import com.example.android.core.domain.UseCase
 import com.example.android.model.HostInfo
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class AddHostUseCase @Inject constructor(
@@ -10,7 +12,9 @@ class AddHostUseCase @Inject constructor(
 ) : UseCase<HostInfo, Boolean>() {
 
     override suspend fun execute(parameters: HostInfo): Boolean {
-        db.hostDao().insertHosts(parameters)
+        withContext(Dispatchers.IO) {
+            db.hostDao().insertHosts(parameters)
+        }
         return true
     }
 }

@@ -31,7 +31,7 @@ class BrowseViewModel @Inject constructor(
             val path = formatPathFromUri(currentPath)
             directory = Uri.parse(currentPath).lastPathSegment ?: "/"
             val result = processBrowseResponse(it)
-            _swipeRefreshing.postValue(Event(false))
+            _swipeRefreshing.value  = Event(false)
             emit(BrowseUiData(result, path, directory))
         }
     }
@@ -45,15 +45,15 @@ class BrowseViewModel @Inject constructor(
     }
 
     fun browse(uri: String) {
-        viewModelScope.launch(Dispatchers.IO) {
-            browseResponse.postValue(Result.Loading)
+        viewModelScope.launch {
+            browseResponse.value = Result.Loading
             currentPath = formatUri(uri)
-            browseResponse.postValue(browseUseCase(currentPath))
+            browseResponse.value = browseUseCase(currentPath)
         }
     }
 
     fun openFile(uri: String) {
-        viewModelScope.launch(Dispatchers.IO) { openFileUseCase(uri) }
+        viewModelScope.launch { openFileUseCase(uri) }
     }
 
     private suspend fun processBrowseResponse(result: Result<List<FileInfo>>): Result<List<FileInfo>> {
