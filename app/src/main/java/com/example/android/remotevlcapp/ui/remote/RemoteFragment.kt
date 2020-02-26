@@ -4,9 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.net.toUri
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.vectordrawable.graphics.drawable.AnimationUtilsCompat
 import com.example.android.core.result.Result
 import com.example.android.model.HostInfo
 import com.example.android.model.Status
@@ -16,7 +16,6 @@ import com.example.android.remotevlcapp.widget.MediaSeekBar
 import com.example.android.remotevlcapp.widget.RepeatButton
 import com.example.android.remotevlcapp.widget.VolumeSeekBar
 import kotlinx.android.synthetic.main.fragment_remote.*
-import timber.log.Timber
 import javax.inject.Inject
 
 
@@ -27,10 +26,7 @@ class RemoteFragment : MainNavigationFragment(), MediaSeekBar.OnProgressChangeLi
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
     private lateinit var viewModel: RemoteViewModel
-
     private var currentHost: HostInfo? = null
-    private var isConnected = false
-    private var mHeight: Float = 0f
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -48,31 +44,22 @@ class RemoteFragment : MainNavigationFragment(), MediaSeekBar.OnProgressChangeLi
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        measureBottomControls()
-
         volume_seek_bar.setOnVolumeChangeListener(this)
         media_seek_bar.setOnProgressChangeListener(this)
 
-        // Use viewLifecycleOwned to avoid reattaching observers
-        // when coming from the backstack
         viewModel.currentHost.observe(viewLifecycleOwner, Observer {
             currentHost = it
-            isConnected = false
             setConnecting(it)
-            Timber.d("Animate bottom currentHost")
-            animateBottom()
         })
 
         viewModel.status.observe(viewLifecycleOwner, Observer {
             if (it is Result.Success) {
                 setRemoteUi(it.data)
+                motion_container.transitionToEnd()
             } else {
-                if (isConnected) {
-                    isConnected = false
-                    animateBottom()
-                    currentHost?.let { host ->
-                        setConnecting(host)
-                    }
+                motion_container.transitionToStart()
+                currentHost?.let { host ->
+                    setConnecting(host)
                 }
             }
         })
@@ -190,13 +177,8 @@ class RemoteFragment : MainNavigationFragment(), MediaSeekBar.OnProgressChangeLi
 
         val filename = status.information?.category?.meta?.filename
         info1.text = context?.getString(com.example.android.remotevlcapp.R.string.now_playing)
-        info2.text = filename
+        info2.text = filename?.toUri()?.lastPathSegment
             ?: context?.getString(com.example.android.remotevlcapp.R.string.nothing_playing)
-
-        if (!isConnected) {
-            isConnected = true
-            animateBottom()
-        }
     }
 
     private fun setConnecting(host: HostInfo) {
@@ -208,51 +190,12 @@ class RemoteFragment : MainNavigationFragment(), MediaSeekBar.OnProgressChangeLi
         )
     }
 
-    /**
-     * Slides in or out the bottom control panel
-     * depending on whether there's an active connection
-     */
-    private fun animateBottom() {
-        Timber.d("height: $mHeight")
-        val interpolator = AnimationUtilsCompat
-            .loadInterpolator(context, android.R.interpolator.fast_out_slow_in)
-        if (isConnected) {
-            bottom_controls.animate()
-                .setInterpolator(interpolator)
-                .translationY(0f)
-                .start()
-        } else {
-            bottom_controls.animate()
-                .setInterpolator(interpolator)
-                .translationY(mHeight)
-                .start()
-        }
-    }
-
     override fun onProgressChanged(progress: Int) {
         viewModel.sendCommand(VLCPlayer.Command.SEEK, progress.toString())
     }
 
     override fun onVolumeChanged(volume: Int) {
         viewModel.sendCommand(VLCPlayer.Command.VOLUME, volume.toString())
-    }
-
-    // Needed to know the height for the translation animation
-    private fun measureBottomControls() {
-        val context = context ?: return
-        val displayMetrics = context.resources.displayMetrics
-        val widthSpec =
-            View.MeasureSpec.makeMeasureSpec(displayMetrics.widthPixels, View.MeasureSpec.EXACTLY)
-        val heightSpec =
-            View.MeasureSpec.makeMeasureSpec(displayMetrics.heightPixels, View.MeasureSpec.EXACTLY)
-
-        val childWidth =
-            ViewGroup.getChildMeasureSpec(widthSpec, 0, bottom_controls.layoutParams.width)
-        val childHeight =
-            ViewGroup.getChildMeasureSpec(heightSpec, 0, bottom_controls.layoutParams.height)
-
-        bottom_controls.measure(childWidth, childHeight)
-        mHeight = bottom_controls.measuredHeight.toFloat()
     }
 }
 

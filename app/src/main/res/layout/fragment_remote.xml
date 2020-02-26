@@ -19,13 +19,15 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.constraintlayout.motion.widget.MotionLayout
+        android:id="@+id/motion_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        app:layoutDescription="@xml/remote_motion"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
-            android:id="@+id/linearLayout2"
+            android:id="@+id/file_connection_info"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="top"
@@ -61,15 +63,14 @@
 
         <GridLayout
             android:id="@+id/navigation_controls"
-            android:layout_width="0dp"
-            android:layout_height="280dp"
+            android:layout_width="285dp"
+            android:layout_height="285dp"
             android:columnCount="3"
             android:rowCount="3"
-            app:layout_constraintBottom_toTopOf="@+id/bottom_controls"
-            app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
+            app:layout_constraintBottom_toTopOf="@id/playback_controls"
+            app:layout_constraintTop_toBottomOf="@+id/file_connection_info">
 
             <Space
                 android:layout_width="0dp"
@@ -146,12 +147,11 @@
         </GridLayout>
 
         <LinearLayout
-            android:id="@+id/bottom_controls"
+            android:id="@+id/playback_controls"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
             android:orientation="vertical"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
 
@@ -160,7 +160,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="4dp"
                 android:orientation="horizontal"
-                app:layout_constraintBottom_toTopOf="@id/bottom_controls"
+                app:layout_constraintBottom_toTopOf="@id/playback_controls"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent">
 
@@ -314,5 +314,7 @@
 
             </LinearLayout>
         </LinearLayout>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.motion.widget.MotionLayout>
+
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

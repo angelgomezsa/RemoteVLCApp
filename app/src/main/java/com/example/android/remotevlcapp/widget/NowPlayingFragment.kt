@@ -4,9 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.net.toUri
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import com.example.android.core.result.Result
 import com.example.android.model.VLCPlayer
 import com.example.android.remotevlcapp.R
@@ -33,7 +33,7 @@ class NowPlayingFragment : DaggerFragment(), MediaSeekBar.OnProgressChangeListen
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(requireActivity(), viewModelFactory)
+        viewModel = ViewModelProvider(requireActivity(), viewModelFactory)
             .get(MainActivityViewModel::class.java)
 
 //        val behavior = BottomSheetBehavior.from<View>(view!!.findViewById(R.id.now_playing_sheet))
@@ -44,7 +44,7 @@ class NowPlayingFragment : DaggerFragment(), MediaSeekBar.OnProgressChangeListen
         viewModel.status.observe(viewLifecycleOwner, Observer {
             if (it is Result.Success) {
                 val status = it.data
-                title.text = status.information?.category?.meta?.filename
+                title.text = status.information?.category?.meta?.filename?.toUri()?.lastPathSegment
                 mediaSeekBar.setMaxProgress(status.length)
                 mediaSeekBar.setProgress(status.time)
                 mediaSeekBar.setOnProgressChangeListener(this)
