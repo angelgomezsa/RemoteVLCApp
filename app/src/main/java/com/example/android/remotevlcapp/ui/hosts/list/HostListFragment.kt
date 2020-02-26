@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import com.example.android.model.HostInfo
 import com.example.android.remotevlcapp.R
@@ -32,7 +31,7 @@ class HostListFragment : MainNavigationFragment(), HostListAdapter.OnHostClickLi
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        viewModel = ViewModelProviders.of(this, viewModelFactory).get(HostListViewModel::class.java)
+        viewModel = ViewModelProvider(this, viewModelFactory).get(HostListViewModel::class.java)
         return inflater.inflate(R.layout.fragment_host_list, container, false)
     }
 

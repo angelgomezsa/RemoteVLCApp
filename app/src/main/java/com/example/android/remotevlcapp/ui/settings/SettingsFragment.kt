@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import com.example.android.model.Theme
 import com.example.android.remotevlcapp.R
 import com.example.android.remotevlcapp.ui.MainNavigationFragment
@@ -30,7 +29,7 @@ class SettingsFragment : MainNavigationFragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        viewModel = ViewModelProviders.of(this, viewModelFactory).get(SettingsViewModel::class.java)
+        viewModel = ViewModelProvider(this, viewModelFactory).get(SettingsViewModel::class.java)
         return inflater.inflate(R.layout.fragment_settings, container, false)
     }
 

@@ -42,11 +42,9 @@ dependencies {
     implementation "androidx.core:core-ktx:$coreVersion"
     implementation "androidx.legacy:legacy-support-v4:$legacyVersion"
 
-    implementation "androidx.lifecycle:lifecycle-extensions:$navigationVersion"
-
-    // Kotlin Coroutines
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion"
+    // Android Architecture Components
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleVersion"
+    implementation "androidx.lifecycle:lifecycle-extensions:$lifecycleVersion"
 
     // Testing
     testImplementation "junit:junit:$junitVersion"

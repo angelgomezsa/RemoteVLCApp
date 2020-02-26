@@ -7,7 +7,6 @@ import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.NavController
 import androidx.navigation.NavOptions
 import androidx.navigation.findNavController
@@ -44,7 +43,7 @@ class MainActivity : DaggerAppCompatActivity(), NavigationHost {
         setContentView(R.layout.activity_main)
 
         viewModel =
-            ViewModelProviders.of(this, viewModelFactory).get(MainActivityViewModel::class.java)
+            ViewModelProvider(this, viewModelFactory).get(MainActivityViewModel::class.java)
 
         drawer = findViewById(R.id.drawer_layout)
         navController = findNavController(R.id.nav_host_fragment)

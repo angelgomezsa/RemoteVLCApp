@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import androidx.vectordrawable.graphics.drawable.AnimationUtilsCompat
 import com.example.android.core.result.Result
 import com.example.android.model.HostInfo
@@ -38,7 +37,7 @@ class RemoteFragment : MainNavigationFragment(), MediaSeekBar.OnProgressChangeLi
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        viewModel = ViewModelProviders.of(this, viewModelFactory).get(RemoteViewModel::class.java)
+        viewModel = ViewModelProvider(this, viewModelFactory).get(RemoteViewModel::class.java)
         return inflater.inflate(
             com.example.android.remotevlcapp.R.layout.fragment_remote,
             container,

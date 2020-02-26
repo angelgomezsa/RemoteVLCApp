@@ -9,7 +9,6 @@ import androidx.activity.addCallback
 import androidx.core.view.updatePadding
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -55,7 +54,7 @@ class BrowseFragment : MainNavigationFragment(), BrowseAdapter.OnFileClickListen
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        viewModel = ViewModelProviders.of(this, viewModelFactory).get(BrowseViewModel::class.java)
+        viewModel = ViewModelProvider(this, viewModelFactory).get(BrowseViewModel::class.java)
         return inflater.inflate(R.layout.fragment_browse, container, false)
     }
 
@@ -69,7 +68,7 @@ class BrowseFragment : MainNavigationFragment(), BrowseAdapter.OnFileClickListen
         recyclerView.adapter = browseAdapter
         browseAdapter.differ.submitList(listOf(Result.Loading))
 
-        viewModel.browseUiData.observe(this, Observer {
+        viewModel.browseUiData.observe(viewLifecycleOwner, Observer {
             toolbarTitle = it.directory
             if (isTitleDisplayed) toolbar.title = toolbarTitle
             directoryText.text = it.directory
@@ -94,7 +93,7 @@ class BrowseFragment : MainNavigationFragment(), BrowseAdapter.OnFileClickListen
             }
         })
 
-        viewModel.swipeRefreshing.observe(this, EventObserver {
+        viewModel.swipeRefreshing.observe(viewLifecycleOwner, EventObserver {
             swipeRefresh.isRefreshing = it
         })
 

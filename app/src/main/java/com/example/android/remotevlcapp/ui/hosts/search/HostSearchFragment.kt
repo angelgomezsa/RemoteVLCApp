@@ -10,7 +10,6 @@ import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import com.example.android.core.result.EventObserver
 import com.example.android.core.result.Result
@@ -38,7 +37,7 @@ class HostSearchFragment : MainNavigationFragment(), HostSearchAdapter.OnHostCli
         savedInstanceState: Bundle?
     ): View? {
         viewModel =
-            ViewModelProviders.of(this, viewModelFactory).get(HostSearchViewModel::class.java)
+            ViewModelProvider(this, viewModelFactory).get(HostSearchViewModel::class.java)
         return inflater.inflate(R.layout.fragment_host_search, container, false)
     }
 

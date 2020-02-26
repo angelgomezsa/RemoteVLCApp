@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import com.example.android.core.domain.host.AuthenticationException
 import com.example.android.core.result.EventObserver
@@ -41,8 +40,8 @@ class HostConfigurationFragment : MainNavigationFragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        viewModel = ViewModelProviders.of(this, viewModelFactory)
-            .get(HostConfigurationViewModel::class.java)
+        viewModel =
+            ViewModelProvider(this, viewModelFactory).get(HostConfigurationViewModel::class.java)
         return inflater.inflate(R.layout.fragment_host_configuration, container, false)
     }
 
@@ -58,7 +57,7 @@ class HostConfigurationFragment : MainNavigationFragment() {
             passwordInput.setText(args.hostPassword)
         }
 
-        viewModel.error.observe(this, EventObserver { exception ->
+        viewModel.error.observe(viewLifecycleOwner, EventObserver { exception ->
             dissmissConnectionDialog()
             Timber.d(exception)
             when (exception) {
@@ -74,7 +73,7 @@ class HostConfigurationFragment : MainNavigationFragment() {
             }
         })
 
-        viewModel.hostEvent.observe(this, EventObserver {
+        viewModel.hostEvent.observe(viewLifecycleOwner, EventObserver {
             findNavController().popBackStack(R.id.navigation_hosts, false)
         })
 
