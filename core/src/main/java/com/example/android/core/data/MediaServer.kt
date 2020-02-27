@@ -2,15 +2,11 @@ package com.example.android.core.data
 
 import android.content.Context
 import android.content.Intent
-import android.os.Build
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.liveData
 import com.example.android.core.result.Result
 import com.example.android.core.service.NotificationService
-import com.example.android.core.service.NotificationService.Companion.EXTRAS_FILENAME
-import com.example.android.core.service.NotificationService.Companion.EXTRAS_STATE
 import com.example.android.model.FileInfo
 import com.example.android.model.HostInfo
 import com.example.android.model.Status
@@ -42,12 +38,8 @@ class MediaServer @Inject constructor(
             try {
                 val status = vlcDataSource.getStatus()
                 emit(Result.Success(status))
-//                Timber.d("checking status")
-
                 if (!isNotificationServiceRunning && preferenceStorage.isNotificationsEnabled) {
-                    val state = status.state
-                    val filename = status.information?.category?.meta?.filename ?: ""
-                    startNotificationService(state, filename)
+                    startNotificationService()
                 }
             } catch (e: Exception) {
                 Timber.d(e)
@@ -84,16 +76,7 @@ class MediaServer @Inject constructor(
         vlcDataSource.sendCommand(command, value)
     }
 
-    private fun startNotificationService(state: String, filename: String) {
-        if (filename.isBlank()) return
-        val intent = Intent(context, NotificationService::class.java).apply {
-            putExtra(EXTRAS_STATE, state)
-            putExtra(EXTRAS_FILENAME, filename)
-        }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            ContextCompat.startForegroundService(context, intent)
-        } else {
-            context.startService(intent)
-        }
+    private fun startNotificationService() {
+        context.startService(Intent(context, NotificationService::class.java))
     }
 }

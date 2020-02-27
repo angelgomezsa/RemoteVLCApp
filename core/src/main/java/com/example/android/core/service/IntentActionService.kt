@@ -6,12 +6,11 @@ import com.example.android.core.domain.server.SendCommandParameters
 import com.example.android.core.domain.server.SendCommandUseCase
 import dagger.android.DaggerService
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-// We use a regular Service instead of an IntentService
+// We use a regular Service instead of a JobIntentService
 // because all the actions already happen in a background thread
 class IntentActionService : DaggerService() {
 
@@ -20,14 +19,6 @@ class IntentActionService : DaggerService() {
 
     private val job = SupervisorJob()
     private val coroutineScope = CoroutineScope(job)
-
-    companion object {
-        const val ACTION_PLAY = "action_play"
-        const val ACTION_PAUSE = "action_pause"
-        const val ACTION_STOP = "action_stop"
-        const val ACTION_REWIND = "action_rewind"
-        const val ACTION_FAST_FORWARD = "action_fast_forward"
-    }
 
     override fun onBind(intent: Intent?): IBinder? {
         return null
