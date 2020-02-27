@@ -1,9 +1,7 @@
 package com.example.android.remotevlcapp.di
 
 import android.content.Context
-import com.example.android.core.data.AppDatabase
-import com.example.android.core.data.MediaServer
-import com.example.android.core.data.PreferenceStorage
+import com.example.android.core.data.*
 import com.example.android.remotevlcapp.MainApplication
 import dagger.Module
 import dagger.Provides
@@ -35,11 +33,16 @@ class AppModule {
 
     @Singleton
     @Provides
+    fun provideVLCDataSource(): VLCDataSource = DefaultDataSource()
+
+    @Singleton
+    @Provides
     fun provideMediaServer(
         context: Context,
-        db: AppDatabase,
-        preferenceStorage: PreferenceStorage
+        appDatabase: AppDatabase,
+        preferenceStorage: PreferenceStorage,
+        vlcDataSource: VLCDataSource
     ): MediaServer {
-        return MediaServer(context, db, preferenceStorage)
+        return MediaServer(context, appDatabase, preferenceStorage, vlcDataSource)
     }
 }

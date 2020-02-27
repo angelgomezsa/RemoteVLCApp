@@ -14,23 +14,16 @@ import com.example.android.core.service.NotificationService.Companion.EXTRAS_STA
 import com.example.android.model.FileInfo
 import com.example.android.model.HostInfo
 import com.example.android.model.Status
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import okhttp3.Credentials
-import okhttp3.Interceptor
-import okhttp3.OkHttpClient
-import retrofit2.Retrofit
-import retrofit2.converter.moshi.MoshiConverterFactory
+import kotlinx.coroutines.*
 import timber.log.Timber
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class MediaServer @Inject constructor(
     private val context: Context,
     private val db: AppDatabase,
-    private val preferenceStorage: PreferenceStorage
+    private val preferenceStorage: PreferenceStorage,
+    private val vlcDataSource: VLCDataSource,
+    ioDispatcher: CoroutineDispatcher = Dispatchers.IO
 ) {
 
     companion object {
@@ -40,7 +33,6 @@ class MediaServer @Inject constructor(
     private var _currentHost = MutableLiveData<HostInfo>()
     val currentHost: LiveData<HostInfo> = _currentHost
 
-    private lateinit var vlcService: VLCService
     var isNotificationServiceRunning = false
 
     val playerStatus: LiveData<Result<Status>> = liveData {
@@ -48,7 +40,7 @@ class MediaServer @Inject constructor(
         // cancellation if LiveData is not actively observed anymore
         while (true) {
             try {
-                val status = vlcService.getStatus()
+                val status = vlcDataSource.getStatus()
                 emit(Result.Success(status))
 //                Timber.d("checking status")
 
@@ -66,7 +58,7 @@ class MediaServer @Inject constructor(
     }
 
     init {
-        CoroutineScope(Dispatchers.IO).launch {
+        CoroutineScope(ioDispatcher).launch {
             val hostId = preferenceStorage.currentHostId
             val host = db.hostDao().getHostById(hostId) ?: return@launch
             switchHost(host)
@@ -75,47 +67,21 @@ class MediaServer @Inject constructor(
 
     fun switchHost(host: HostInfo) {
         Timber.d("Switching host to: ${host.name}")
-
-        val interceptor = Interceptor { chain ->
-            var request = chain.request()
-            request = request.newBuilder()
-                .header("Authorization", Credentials.basic("", host.password))
-                .build()
-            chain.proceed(request)
-        }
-
-        val client = OkHttpClient.Builder()
-            .addInterceptor(interceptor)
-            .connectTimeout(5, TimeUnit.SECONDS)
-            .build()
-
-
-        val retrofit = Retrofit.Builder()
-            .addConverterFactory(MoshiConverterFactory.create())
-            .client(client)
-            .baseUrl("http://${host.address}:${host.port}/requests/")
-            .build()
-
-        vlcService = retrofit.create(VLCService::class.java)
+        vlcDataSource.switchHost(host)
         preferenceStorage.currentHostId = host.id
         _currentHost.postValue(host)
     }
 
     suspend fun browse(uri: String): List<FileInfo> {
-        return vlcService.browse(uri).files
+        return vlcDataSource.browse(uri)
     }
 
     suspend fun openFile(uri: String) {
-        vlcService.openFile(uri)
+        vlcDataSource.openFile(uri)
     }
 
     suspend fun sendCommand(command: String, value: String? = null) {
-        try {
-            if (value == null) vlcService.sendCommand(command)
-            else vlcService.sendCommand(command, value)
-        } catch (e: Exception) {
-            Timber.d("SendCommand exception: ${e.message}")
-        }
+        vlcDataSource.sendCommand(command, value)
     }
 
     private fun startNotificationService(state: String, filename: String) {
