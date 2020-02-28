@@ -18,7 +18,7 @@ class MediaServer @Inject constructor(
     private val context: Context,
     private val db: AppDatabase,
     private val preferenceStorage: PreferenceStorage,
-    private val vlcDataSource: VLCDataSource,
+    private val vlcConnectionService: VlcConnectionService,
     ioDispatcher: CoroutineDispatcher = Dispatchers.IO
 ) {
 
@@ -29,14 +29,14 @@ class MediaServer @Inject constructor(
     private var _currentHost = MutableLiveData<HostInfo>()
     val currentHost: LiveData<HostInfo> = _currentHost
 
-    var isNotificationServiceRunning = false
+    private var isNotificationServiceRunning = false
 
     val playerStatus: LiveData<Result<Status>> = liveData {
         // note that `while(true)` is fine because the `delay()` below will cooperate in
         // cancellation if LiveData is not actively observed anymore
         while (true) {
             try {
-                val status = vlcDataSource.getStatus()
+                val status = vlcConnectionService.getStatus()
                 emit(Result.Success(status))
                 if (!isNotificationServiceRunning && preferenceStorage.isNotificationsEnabled) {
                     startNotificationService()
@@ -59,24 +59,28 @@ class MediaServer @Inject constructor(
 
     fun switchHost(host: HostInfo) {
         Timber.d("Switching host to: ${host.name}")
-        vlcDataSource.switchHost(host)
+        vlcConnectionService.switchHost(host)
         preferenceStorage.currentHostId = host.id
         _currentHost.postValue(host)
     }
 
     suspend fun browse(uri: String): List<FileInfo> {
-        return vlcDataSource.browse(uri)
+        return vlcConnectionService.browse(uri)
     }
 
     suspend fun openFile(uri: String) {
-        vlcDataSource.openFile(uri)
+        vlcConnectionService.openFile(uri)
     }
 
     suspend fun sendCommand(command: String, value: String? = null) {
-        vlcDataSource.sendCommand(command, value)
+        vlcConnectionService.sendCommand(command, value)
     }
 
     private fun startNotificationService() {
         context.startService(Intent(context, NotificationService::class.java))
+    }
+
+    fun setNotificationServerRunning(value: Boolean) {
+        isNotificationServiceRunning = value
     }
 }

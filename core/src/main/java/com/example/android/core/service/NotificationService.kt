@@ -4,7 +4,8 @@ import android.content.Intent
 import androidx.core.app.NotificationManagerCompat
 import androidx.lifecycle.LifecycleService
 import androidx.lifecycle.Observer
-import com.example.android.core.data.MediaServer
+import com.example.android.core.domain.server.NotificationServiceRunningUseCase
+import com.example.android.core.domain.server.ObserveCurrentStatusUseCase
 import com.example.android.core.result.Result
 import com.example.android.model.VLCPlayer
 import dagger.android.AndroidInjection
@@ -13,7 +14,10 @@ import javax.inject.Inject
 class NotificationService : LifecycleService() {
 
     @Inject
-    lateinit var mediaServer: MediaServer
+    lateinit var notificationServiceRunningUseCase: NotificationServiceRunningUseCase
+
+    @Inject
+    lateinit var observeCurrentStatusUseCase: ObserveCurrentStatusUseCase
 
     private lateinit var notificationBuilder: NotificationBuilder
     private lateinit var notificationManager: NotificationManagerCompat
@@ -29,13 +33,13 @@ class NotificationService : LifecycleService() {
         notificationBuilder = NotificationBuilder(this)
         notificationManager = NotificationManagerCompat.from(this)
 
-        mediaServer.playerStatus.observe(this, Observer {
+        observeCurrentStatusUseCase.execute().observe(this, Observer {
             if (it is Result.Success) {
-                val newstate = it.data.state
-                val newfilename = it.data.information?.category?.meta?.filename ?: ""
-                if (state != newstate || filename != newfilename) {
-                    state = newstate
-                    filename = newfilename
+                val newState = it.data.state
+                val newFilename = it.data.filename ?: ""
+                if (state != newState || filename != newFilename) {
+                    state = newState
+                    filename = newFilename
                     onPlayBackStateChanged()
                 }
             } else if (it is Result.Error) {
@@ -46,7 +50,7 @@ class NotificationService : LifecycleService() {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         super.onStartCommand(intent, flags, startId)
-        mediaServer.isNotificationServiceRunning = true
+        notificationServiceRunningUseCase.execute(true)
         return START_NOT_STICKY
     }
 
@@ -81,6 +85,6 @@ class NotificationService : LifecycleService() {
 
     override fun onDestroy() {
         super.onDestroy()
-        mediaServer.isNotificationServiceRunning = false
+        notificationServiceRunningUseCase.execute(false)
     }
 }

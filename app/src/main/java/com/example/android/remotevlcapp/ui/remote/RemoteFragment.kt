@@ -175,7 +175,7 @@ class RemoteFragment : MainNavigationFragment(), MediaSeekBar.OnProgressChangeLi
         random.highlight = status.random
         fullscreen.highlight = status.fullscreen
 
-        val filename = status.information?.category?.meta?.filename
+        val filename = status.filename
         info1.text = context?.getString(com.example.android.remotevlcapp.R.string.now_playing)
         info2.text = filename?.toUri()?.lastPathSegment
             ?: context?.getString(com.example.android.remotevlcapp.R.string.nothing_playing)

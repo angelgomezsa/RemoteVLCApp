@@ -44,7 +44,7 @@ class NowPlayingFragment : DaggerFragment(), MediaSeekBar.OnProgressChangeListen
         viewModel.status.observe(viewLifecycleOwner, Observer {
             if (it is Result.Success) {
                 val status = it.data
-                title.text = status.information?.category?.meta?.filename?.toUri()?.lastPathSegment
+                title.text = status.filename?.toUri()?.lastPathSegment
                 mediaSeekBar.setMaxProgress(status.length)
                 mediaSeekBar.setProgress(status.time)
                 mediaSeekBar.setOnProgressChangeListener(this)

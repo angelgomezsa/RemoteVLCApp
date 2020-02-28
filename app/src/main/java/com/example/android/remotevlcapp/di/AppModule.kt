@@ -33,7 +33,7 @@ class AppModule {
 
     @Singleton
     @Provides
-    fun provideVLCDataSource(): VLCDataSource = DefaultDataSource()
+    fun provideVLCDataSource(): VlcConnectionService = DefaultConnectionService()
 
     @Singleton
     @Provides
@@ -41,7 +41,7 @@ class AppModule {
         context: Context,
         appDatabase: AppDatabase,
         preferenceStorage: PreferenceStorage,
-        vlcDataSource: VLCDataSource
+        vlcDataSource: VlcConnectionService
     ): MediaServer {
         return MediaServer(context, appDatabase, preferenceStorage, vlcDataSource)
     }
