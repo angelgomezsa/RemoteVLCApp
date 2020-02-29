@@ -3,6 +3,7 @@ package com.example.android.model.adapter
 import com.example.android.model.Status
 import com.example.android.model.StatusJson
 import com.squareup.moshi.FromJson
+import com.squareup.moshi.JsonDataException
 
 class StatusAdapter {
 
@@ -12,7 +13,7 @@ class StatusAdapter {
         val fullscreen = when (statusJson.fullscreen) {
             is Boolean -> statusJson.fullscreen
             is Number -> statusJson.fullscreen == 1
-            else -> throw IllegalArgumentException("Unknown value for fullscreen: ${statusJson.fullscreen}")
+            else -> throw JsonDataException("Unknown value for fullscreen: ${statusJson.fullscreen}")
         }
         val filename = statusJson.information?.category?.meta?.filename
 

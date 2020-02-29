@@ -58,7 +58,6 @@ class MediaServer @Inject constructor(
     }
 
     fun switchHost(host: HostInfo) {
-        Timber.d("Switching host to: ${host.name}")
         vlcConnectionService.switchHost(host)
         preferenceStorage.currentHostId = host.id
         _currentHost.postValue(host)

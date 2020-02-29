@@ -3,7 +3,7 @@ package com.example.android.model
 import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
-data class Status constructor(
+data class Status(
     val fullscreen: Boolean,
     val time: Int,
     val volume: Int,

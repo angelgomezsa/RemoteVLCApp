@@ -41,7 +41,9 @@ class BrowseViewModel @Inject constructor(
     }
 
     fun onSwipeRefresh() {
-        browse(currentPath)
+        viewModelScope.launch {
+            browseResponse.value = browseUseCase(currentPath)
+        }
     }
 
     fun browse(uri: String) {

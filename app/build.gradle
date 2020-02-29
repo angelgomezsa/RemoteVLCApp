@@ -40,7 +40,6 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
     implementation "androidx.appcompat:appcompat:$appcompatVersion"
     implementation "androidx.core:core-ktx:$coreVersion"
-    implementation "androidx.legacy:legacy-support-v4:$legacyVersion"
 
     // Testing
     testImplementation "junit:junit:$junitVersion"
@@ -50,6 +49,8 @@ dependencies {
     // UI
     implementation "com.google.android.material:material:$materialVersion"
     implementation "androidx.constraintlayout:constraintlayout:$constraintLayoutVersion"
+    implementation "androidx.swiperefreshlayout:swiperefreshlayout:$swipeRefreshLayoutVersion"
+
 
     // Architecture Components
     implementation "androidx.navigation:navigation-fragment:$navigationVersion"
