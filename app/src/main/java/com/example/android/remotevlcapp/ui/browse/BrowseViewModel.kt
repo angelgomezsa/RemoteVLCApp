@@ -4,7 +4,6 @@ import android.net.Uri
 import androidx.lifecycle.*
 import com.example.android.core.domain.browse.BrowseUseCase
 import com.example.android.core.domain.browse.OpenFileUseCase
-import com.example.android.core.result.Event
 import com.example.android.core.result.Result
 import com.example.android.model.FileInfo
 import com.example.android.remotevlcapp.util.formatPathFromUri
@@ -22,17 +21,19 @@ class BrowseViewModel @Inject constructor(
     private var currentPath = "file:///"
     private var directory = ""
 
-    private val _swipeRefreshing = MutableLiveData<Event<Boolean>>()
-    val swipeRefreshing: LiveData<Event<Boolean>> = _swipeRefreshing
-
     private val browseResponse = MutableLiveData<Result<List<FileInfo>>>()
     val browseUiData: LiveData<BrowseUiData> = browseResponse.switchMap {
         liveData {
-            val path = formatPathFromUri(currentPath)
-            directory = Uri.parse(currentPath).lastPathSegment ?: "/"
-            val result = processBrowseResponse(it)
-            _swipeRefreshing.value  = Event(false)
-            emit(BrowseUiData(result, path, directory))
+            when (it) {
+                is Result.Loading,
+                is Result.Error -> emit(BrowseUiData(it))
+                is Result.Success -> {
+                    val result = processBrowseResponse(it)
+                    directory = Uri.parse(currentPath).lastPathSegment ?: "/"
+                    val path = formatPathFromUri(currentPath)
+                    emit(BrowseUiData(result, path, directory))
+                }
+            }
         }
     }
 
@@ -93,6 +94,6 @@ class BrowseViewModel @Inject constructor(
 
 data class BrowseUiData(
     val result: Result<List<FileInfo>>,
-    val path: String,
-    val directory: String
+    val path: String? = null,
+    val directory: String? = null
 )

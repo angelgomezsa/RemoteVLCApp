@@ -18,6 +18,11 @@
             android:id="@+id/navigation_hosts"
             android:icon="@drawable/ic_devices"
             android:title="@string/nav_media_centers" />
+
+        <item
+            android:id="@+id/testFragment"
+            android:icon="@drawable/ic_devices"
+            android:title="Test" />
     </group>
 
     <group

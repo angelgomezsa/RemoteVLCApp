@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.activity.addCallback
 import androidx.core.view.updatePadding
 import androidx.lifecycle.Observer
@@ -12,7 +13,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.android.core.result.EventObserver
 import com.example.android.core.result.Result
 import com.example.android.model.FileInfo
 import com.example.android.remotevlcapp.R
@@ -66,35 +66,23 @@ class BrowseFragment : MainNavigationFragment(), BrowseAdapter.OnFileClickListen
 
         browseAdapter = BrowseAdapter(this)
         recyclerView.adapter = browseAdapter
-        browseAdapter.differ.submitList(listOf(Result.Loading))
 
         viewModel.browseUiData.observe(viewLifecycleOwner, Observer {
-            toolbarTitle = it.directory
-            if (isTitleDisplayed) toolbar.title = toolbarTitle
-            directoryText.text = it.directory
-            pathText.text = it.path
-
-            recyclerView.run {
-                if (itemDecorationCount > 0) {
-                    for (i in itemDecorationCount - 1 downTo 0) {
-                        removeItemDecorationAt(i)
-                    }
+            swipeRefresh.isRefreshing = false
+            when (it.result) {
+                is Result.Loading -> {
+                    browse_progressBar.visibility = View.VISIBLE
                 }
-                when (it.result) {
-                    is Result.Loading,
-                    is Result.Error -> browseAdapter.differ.submitList(listOf(it.result))
-                    is Result.Success -> {
-                        browseAdapter.differ.submitList(it.result.data)
-                        addItemDecoration(
-                            DividerItemDecoration(context, LinearLayoutManager.VERTICAL)
-                        )
-                    }
+                is Result.Error -> {
+                    browse_progressBar.visibility = View.GONE
+                    Toast.makeText(this.context, it.result.exception.message, Toast.LENGTH_LONG)
+                        .show()
+                }
+                is Result.Success -> {
+                    browse_progressBar.visibility = View.GONE
+                    updateBrowseUi(it)
                 }
             }
-        })
-
-        viewModel.swipeRefreshing.observe(viewLifecycleOwner, EventObserver {
-            swipeRefresh.isRefreshing = it
         })
 
         swipeRefresh.setOnRefreshListener {
@@ -153,8 +141,28 @@ class BrowseFragment : MainNavigationFragment(), BrowseAdapter.OnFileClickListen
         }
     }
 
+    private fun updateBrowseUi(uiData: BrowseUiData) {
+        toolbarTitle = uiData.directory
+        if (isTitleDisplayed) toolbar.title = toolbarTitle
+        directoryText.text = uiData.directory
+        pathText.text = uiData.path
+        val list = (uiData.result as Result.Success).data
+        browseAdapter.submitList(list)
+
+        recyclerView.run {
+            if (itemDecorationCount > 0) {
+                for (i in itemDecorationCount - 1 downTo 0) {
+                    removeItemDecorationAt(i)
+                }
+            }
+            addItemDecoration(
+                DividerItemDecoration(context, LinearLayoutManager.VERTICAL)
+            )
+        }
+    }
+
     private fun toParentDirectory(): Boolean {
-        val item = browseAdapter.differ.currentList[0]
+        val item = browseAdapter.currentList[0]
         if (item is FileInfo && item.type == "dir" && item.name == "..") {
             onClick(item)
             return true

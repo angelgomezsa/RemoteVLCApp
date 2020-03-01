@@ -26,7 +26,8 @@ class MainActivity : DaggerAppCompatActivity(), NavigationHost {
             R.id.navigation_remote,
             R.id.navigation_browse,
             R.id.navigation_hosts,
-            R.id.navigation_settings
+            R.id.navigation_settings,
+            R.id.testFragment
         )
     }
 
@@ -90,6 +91,10 @@ class MainActivity : DaggerAppCompatActivity(), NavigationHost {
                 }
                 R.id.navigation_settings -> {
                     navController.navigate(R.id.navigation_settings, null, options)
+                    true
+                }
+                R.id.testFragment -> {
+                    navController.navigate(R.id.testFragment, null, options)
                     true
                 }
                 else -> false
