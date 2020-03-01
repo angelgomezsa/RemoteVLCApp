@@ -13,7 +13,18 @@
     <fragment
         android:id="@+id/navigation_browse"
         android:name="com.example.android.remotevlcapp.ui.browse.BrowseFragment"
-        tools:layout="@layout/fragment_browse" />
+        tools:layout="@layout/fragment_browse">
+
+        <argument
+            android:name="path"
+            android:defaultValue="@null"
+            app:argType="string"
+            app:nullable="true" />
+
+        <action
+            android:id="@+id/to_directory"
+            app:destination="@id/navigation_browse" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_hosts"

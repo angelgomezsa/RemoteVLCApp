@@ -1,7 +1,6 @@
 package com.example.android.remotevlcapp.util
 
 import android.content.Context
-import android.net.Uri
 import android.util.TypedValue
 import java.math.RoundingMode
 import java.net.URLDecoder
@@ -54,15 +53,7 @@ fun formatFileTime(seconds: Int): String {
 }
 
 fun formatUri(uri: String): String {
-    var decodedUri = URLDecoder.decode(uri, "UTF-8")
-    if (decodedUri.endsWith("/..")) {
-        decodedUri = decodedUri.replace("/..", "")
-        val i = decodedUri.lastIndexOf("/")
-        if (i != -1) {
-            decodedUri = decodedUri.substring(0 until i)
-        }
-    }
-    return decodedUri
+    return URLDecoder.decode(uri, "UTF-8")
 }
 
 fun formatPathFromUri(uri: String): String {
@@ -70,9 +61,5 @@ fun formatPathFromUri(uri: String): String {
         .replace("//", "/")
     if (formattedUri.isBlank()) formattedUri = "/"
     return formattedUri
-}
-
-fun getCurrentDirectoryFromPath(path: String): String {
-    return Uri.parse(path).lastPathSegment ?: "/"
 }
 

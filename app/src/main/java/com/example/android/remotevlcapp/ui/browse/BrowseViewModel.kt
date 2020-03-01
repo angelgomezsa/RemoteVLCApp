@@ -18,7 +18,7 @@ class BrowseViewModel @Inject constructor(
     private val openFileUseCase: OpenFileUseCase
 ) : ViewModel() {
 
-    private var currentPath = "file:///"
+    private var currentPath = ""
     private var directory = ""
 
     private val browseResponse = MutableLiveData<Result<List<FileInfo>>>()
@@ -35,10 +35,6 @@ class BrowseViewModel @Inject constructor(
                 }
             }
         }
-    }
-
-    init {
-        browse(currentPath)
     }
 
     fun onSwipeRefresh() {
@@ -70,25 +66,13 @@ class BrowseViewModel @Inject constructor(
     private fun putUpFolderFirst(files: List<FileInfo>): List<FileInfo> {
         val mutableFiles = files.toMutableList()
         mutableFiles.sortBy { it.type }
-        var dir: FileInfo? = null
         for (file in mutableFiles) {
             if (file.type == "dir" && file.name == "..") {
-                dir = file
+                mutableFiles.remove(file)
                 break
             }
         }
-        val newFiles = mutableListOf<FileInfo>()
-        if (dir != null) {
-            mutableFiles.remove(dir)
-            newFiles.add(dir)
-            newFiles.addAll(mutableFiles)
-        } else {
-            if (directory != "/") {
-                newFiles.add(FileInfo("dir", "", "..", "file:///", 0, 0))
-            }
-            newFiles.addAll(mutableFiles)
-        }
-        return newFiles
+        return mutableFiles
     }
 }
 

@@ -42,11 +42,7 @@ class BrowseFragment : MainNavigationFragment(), BrowseAdapter.OnFileClickListen
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         requireActivity().onBackPressedDispatcher.addCallback(this) {
-            if (behavior.state == STATE_EXPANDED) {
-                behavior.state = STATE_COLLAPSED
-            } else if (!toParentDirectory()) {
-                findNavController().popBackStack()
-            }
+            onBackPressed()
         }
     }
 
@@ -131,10 +127,19 @@ class BrowseFragment : MainNavigationFragment(), BrowseAdapter.OnFileClickListen
 
             override fun onSlide(bottomSheet: View, slideOffset: Float) {}
         })
+
+        requireArguments().let {
+            val args = BrowseFragmentArgs.fromBundle(it)
+            val path = args.path ?: "file:///"
+            viewModel.browse(path)
+        }
+
+
     }
 
     override fun onClick(file: FileInfo) {
         if (file.type == "dir" || file.name == "..") {
+            findNavController().navigate(BrowseFragmentDirections.toDirectory(file.uri))
             viewModel.browse(file.uri)
         } else {
             viewModel.openFile(file.uri)
@@ -161,12 +166,22 @@ class BrowseFragment : MainNavigationFragment(), BrowseAdapter.OnFileClickListen
         }
     }
 
-    private fun toParentDirectory(): Boolean {
-        val item = browseAdapter.currentList[0]
-        if (item is FileInfo && item.type == "dir" && item.name == "..") {
-            onClick(item)
-            return true
+//    private fun toParentDirectory(): Boolean {
+//        val item = browseAdapter.currentList[0]
+//        if (item is FileInfo && item.type == "dir" && item.name == "..") {
+//            onClick(item)
+//            return true
+//        }
+//        return false
+//    }
+
+    private fun onBackPressed(): Boolean {
+        return if (::behavior.isInitialized && behavior.state == STATE_EXPANDED) {
+            behavior.state = STATE_COLLAPSED
+            true
+        } else {
+            findNavController().popBackStack()
+            false
         }
-        return false
     }
 }
