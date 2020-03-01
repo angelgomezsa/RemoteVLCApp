@@ -24,13 +24,13 @@ class BrowseViewModel @Inject constructor(
     private val browseResponse = MutableLiveData<Result<List<FileInfo>>>()
     val browseUiData: LiveData<BrowseUiData> = browseResponse.switchMap {
         liveData {
+            directory = Uri.parse(currentPath).lastPathSegment ?: "/"
+            val path = formatPathFromUri(currentPath)
             when (it) {
                 is Result.Loading,
-                is Result.Error -> emit(BrowseUiData(it))
+                is Result.Error -> emit(BrowseUiData(it, path, directory))
                 is Result.Success -> {
                     val result = processBrowseResponse(it)
-                    directory = Uri.parse(currentPath).lastPathSegment ?: "/"
-                    val path = formatPathFromUri(currentPath)
                     emit(BrowseUiData(result, path, directory))
                 }
             }
@@ -43,7 +43,7 @@ class BrowseViewModel @Inject constructor(
         }
     }
 
-    fun browse(uri: String) {
+    fun browse(uri: String = currentPath) {
         viewModelScope.launch {
             browseResponse.value = Result.Loading
             currentPath = formatUri(uri)
@@ -78,6 +78,6 @@ class BrowseViewModel @Inject constructor(
 
 data class BrowseUiData(
     val result: Result<List<FileInfo>>,
-    val path: String? = null,
-    val directory: String? = null
+    val path: String,
+    val directory: String
 )

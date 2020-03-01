@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.activity.addCallback
 import androidx.core.view.updatePadding
 import androidx.lifecycle.Observer
@@ -23,6 +22,8 @@ import com.example.android.remotevlcapp.widget.BottomSheetBehavior.Companion.STA
 import com.example.android.remotevlcapp.widget.BottomSheetBehavior.Companion.STATE_EXPANDED
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_HIDDEN
+import kotlinx.android.synthetic.main.browse_loading.*
+import kotlinx.android.synthetic.main.browse_no_connection.*
 import kotlinx.android.synthetic.main.fragment_browse.*
 import javax.inject.Inject
 import kotlin.math.abs
@@ -36,8 +37,7 @@ class BrowseFragment : MainNavigationFragment(), BrowseAdapter.OnFileClickListen
     private lateinit var browseAdapter: BrowseAdapter
     private lateinit var behavior: BottomSheetBehavior<*>
 
-    private var toolbarTitle: String? = null
-    private var isTitleDisplayed = false
+    private var toolbarTitle: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,40 +61,27 @@ class BrowseFragment : MainNavigationFragment(), BrowseAdapter.OnFileClickListen
         behavior = BottomSheetBehavior.from(view.findViewById(R.id.now_playing_sheet))
 
         browseAdapter = BrowseAdapter(this)
-        recyclerView.adapter = browseAdapter
+        browse_recyclerView.adapter = browseAdapter
 
         viewModel.browseUiData.observe(viewLifecycleOwner, Observer {
-            swipeRefresh.isRefreshing = false
-            when (it.result) {
-                is Result.Loading -> {
-                    browse_progressBar.visibility = View.VISIBLE
-                }
-                is Result.Error -> {
-                    browse_progressBar.visibility = View.GONE
-                    Toast.makeText(this.context, it.result.exception.message, Toast.LENGTH_LONG)
-                        .show()
-                }
-                is Result.Success -> {
-                    browse_progressBar.visibility = View.GONE
-                    updateBrowseUi(it)
-                }
-            }
+            updateBrowseUi(it)
         })
 
         swipeRefresh.setOnRefreshListener {
             viewModel.onSwipeRefresh()
         }
 
+        no_connection.setOnClickListener {
+            viewModel.browse()
+        }
+
         appBarLayout.addOnOffsetChangedListener(object : AppBarLayout.OnOffsetChangedListener {
             val triggerHeight = dpToPx(context!!, 80f)
-
             override fun onOffsetChanged(appBarLayout: AppBarLayout, verticalOffset: Int) {
-                if (!isTitleDisplayed && abs(verticalOffset) >= triggerHeight) {
-                    isTitleDisplayed = true
+                if (abs(verticalOffset) >= triggerHeight) {
                     toolbar.title = toolbarTitle
-                } else if (isTitleDisplayed && abs(verticalOffset) < triggerHeight) {
-                    isTitleDisplayed = false
-                    toolbar.title = null
+                } else if (abs(verticalOffset) < triggerHeight) {
+                    toolbar.title = ""
                 }
             }
         })
@@ -102,13 +89,13 @@ class BrowseFragment : MainNavigationFragment(), BrowseAdapter.OnFileClickListen
         val _56dp = dpToPx(context!!, 56f)
         val addPaddingAnimator = ValueAnimator.ofInt(0, _56dp).apply {
             addUpdateListener {
-                recyclerView.updatePadding(bottom = it.animatedValue as Int)
+                browse_recyclerView.updatePadding(bottom = it.animatedValue as Int)
             }
             duration = 200L
         }
         val removePaddingAnimator = ValueAnimator.ofInt(_56dp, 0).apply {
             addUpdateListener {
-                recyclerView.updatePadding(bottom = it.animatedValue as Int)
+                browse_recyclerView.updatePadding(bottom = it.animatedValue as Int)
             }
             duration = 200L
         }
@@ -117,7 +104,7 @@ class BrowseFragment : MainNavigationFragment(), BrowseAdapter.OnFileClickListen
             override fun onStateChanged(bottomSheet: View, newState: Int) {
                 when (newState) {
                     STATE_COLLAPSED -> {
-                        if (recyclerView.paddingBottom == 0) {
+                        if (browse_recyclerView.paddingBottom == 0) {
                             addPaddingAnimator.start()
                         }
                     }
@@ -133,8 +120,6 @@ class BrowseFragment : MainNavigationFragment(), BrowseAdapter.OnFileClickListen
             val path = args.path ?: "file:///"
             viewModel.browse(path)
         }
-
-
     }
 
     override fun onClick(file: FileInfo) {
@@ -147,33 +132,45 @@ class BrowseFragment : MainNavigationFragment(), BrowseAdapter.OnFileClickListen
     }
 
     private fun updateBrowseUi(uiData: BrowseUiData) {
+        swipeRefresh.isRefreshing = false
         toolbarTitle = uiData.directory
-        if (isTitleDisplayed) toolbar.title = toolbarTitle
+        toolbar.title = toolbarTitle
         directoryText.text = uiData.directory
         pathText.text = uiData.path
-        val list = (uiData.result as Result.Success).data
-        browseAdapter.submitList(list)
+        when (uiData.result) {
+            is Result.Loading -> {
+                browse_progressBar.visibility = View.VISIBLE
+                loading.visibility = View.VISIBLE
+                no_connection.visibility = View.GONE
+                swipeRefresh.visibility = View.GONE
+            }
+            is Result.Error -> {
+                browse_progressBar.visibility = View.GONE
+                loading.visibility = View.GONE
+                no_connection.visibility = View.VISIBLE
+                swipeRefresh.visibility = View.GONE
+            }
+            is Result.Success -> {
+                browse_progressBar.visibility = View.GONE
+                loading.visibility = View.GONE
+                no_connection.visibility = View.GONE
+                swipeRefresh.visibility = View.VISIBLE
+                val list = uiData.result.data
+                browseAdapter.submitList(list)
 
-        recyclerView.run {
-            if (itemDecorationCount > 0) {
-                for (i in itemDecorationCount - 1 downTo 0) {
-                    removeItemDecorationAt(i)
+                browse_recyclerView.run {
+                    if (itemDecorationCount > 0) {
+                        for (i in itemDecorationCount - 1 downTo 0) {
+                            removeItemDecorationAt(i)
+                        }
+                    }
+                    addItemDecoration(
+                        DividerItemDecoration(context, LinearLayoutManager.VERTICAL)
+                    )
                 }
             }
-            addItemDecoration(
-                DividerItemDecoration(context, LinearLayoutManager.VERTICAL)
-            )
         }
     }
-
-//    private fun toParentDirectory(): Boolean {
-//        val item = browseAdapter.currentList[0]
-//        if (item is FileInfo && item.type == "dir" && item.name == "..") {
-//            onClick(item)
-//            return true
-//        }
-//        return false
-//    }
 
     private fun onBackPressed(): Boolean {
         return if (::behavior.isInitialized && behavior.state == STATE_EXPANDED) {

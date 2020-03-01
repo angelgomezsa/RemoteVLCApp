@@ -69,4 +69,8 @@
     <string name="enable_notifications">Enable notifications</string>
     <string name="keep_screen_on">Keep screen on</string>
     <string name="theme_dialog_title">Choose theme</string>
+
+    <!-- Browse  -->
+    <string name="browse_no_connection">No connection. \n\nPlease check your media center configuration or connection</string>
+    <string name="browse_loading">Loading… \n\nThis screen will be automatically updated when it finishes.</string>
 </resources>
