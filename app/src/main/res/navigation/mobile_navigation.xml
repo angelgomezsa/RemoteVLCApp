@@ -115,8 +115,5 @@
         android:id="@+id/navigation_settings"
         android:name="com.example.android.remotevlcapp.ui.settings.SettingsFragment"
         tools:layout="@layout/fragment_settings" />
-    <fragment
-        android:id="@+id/testFragment"
-        android:name="com.example.android.remotevlcapp.ui.test.TestFragment" />
 
 </navigation>

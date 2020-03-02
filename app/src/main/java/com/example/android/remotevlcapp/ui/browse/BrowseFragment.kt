@@ -44,13 +44,20 @@ class BrowseFragment : MainNavigationFragment(), BrowseAdapter.OnFileClickListen
         requireActivity().onBackPressedDispatcher.addCallback(this) {
             onBackPressed()
         }
+
+        viewModel = ViewModelProvider(this, viewModelFactory).get(BrowseViewModel::class.java)
+
+        arguments?.let {
+            val args = BrowseFragmentArgs.fromBundle(it)
+            val path = args.path ?: "file:///"
+            viewModel.browse(path)
+        }
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        viewModel = ViewModelProvider(this, viewModelFactory).get(BrowseViewModel::class.java)
         return inflater.inflate(R.layout.fragment_browse, container, false)
     }
 
@@ -63,17 +70,9 @@ class BrowseFragment : MainNavigationFragment(), BrowseAdapter.OnFileClickListen
         browseAdapter = BrowseAdapter(this)
         browse_recyclerView.adapter = browseAdapter
 
-        viewModel.browseUiData.observe(viewLifecycleOwner, Observer {
-            updateBrowseUi(it)
-        })
-
-        swipeRefresh.setOnRefreshListener {
-            viewModel.onSwipeRefresh()
-        }
-
-        no_connection.setOnClickListener {
-            viewModel.browse()
-        }
+        swipeRefresh.setOnRefreshListener { viewModel.onSwipeRefresh() }
+        no_connection.setOnClickListener { viewModel.browse() }
+        setRecyclerViewPadding()
 
         appBarLayout.addOnOffsetChangedListener(object : AppBarLayout.OnOffsetChangedListener {
             val triggerHeight = dpToPx(context!!, 80f)
@@ -86,14 +85,20 @@ class BrowseFragment : MainNavigationFragment(), BrowseAdapter.OnFileClickListen
             }
         })
 
-        val _56dp = dpToPx(context!!, 56f)
-        val addPaddingAnimator = ValueAnimator.ofInt(0, _56dp).apply {
+        viewModel.browseUiData.observe(viewLifecycleOwner, Observer {
+            updateBrowseUi(it)
+        })
+    }
+
+    private fun setRecyclerViewPadding() {
+        val recyclerViewPadding = dpToPx(context!!, 56f)
+        val addPaddingAnimator = ValueAnimator.ofInt(0, recyclerViewPadding).apply {
             addUpdateListener {
                 browse_recyclerView.updatePadding(bottom = it.animatedValue as Int)
             }
             duration = 200L
         }
-        val removePaddingAnimator = ValueAnimator.ofInt(_56dp, 0).apply {
+        val removePaddingAnimator = ValueAnimator.ofInt(recyclerViewPadding, 0).apply {
             addUpdateListener {
                 browse_recyclerView.updatePadding(bottom = it.animatedValue as Int)
             }
@@ -115,19 +120,8 @@ class BrowseFragment : MainNavigationFragment(), BrowseAdapter.OnFileClickListen
             override fun onSlide(bottomSheet: View, slideOffset: Float) {}
         })
 
-        requireArguments().let {
-            val args = BrowseFragmentArgs.fromBundle(it)
-            val path = args.path ?: "file:///"
-            viewModel.browse(path)
-        }
-    }
-
-    override fun onClick(file: FileInfo) {
-        if (file.type == "dir" || file.name == "..") {
-            findNavController().navigate(BrowseFragmentDirections.toDirectory(file.uri))
-            viewModel.browse(file.uri)
-        } else {
-            viewModel.openFile(file.uri)
+        if (behavior.state == STATE_COLLAPSED) {
+            addPaddingAnimator.start()
         }
     }
 
@@ -169,6 +163,14 @@ class BrowseFragment : MainNavigationFragment(), BrowseAdapter.OnFileClickListen
                     )
                 }
             }
+        }
+    }
+
+    override fun onClick(file: FileInfo) {
+        if (file.type == "dir" || file.name == "..") {
+            findNavController().navigate(BrowseFragmentDirections.toDirectory(file.uri))
+        } else {
+            viewModel.openFile(file.uri)
         }
     }
 

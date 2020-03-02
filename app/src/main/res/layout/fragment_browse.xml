@@ -97,9 +97,13 @@
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-    <include layout="@layout/browse_no_connection" />
+    <include
+        layout="@layout/browse_no_connection"
+        android:visibility="gone" />
 
-    <include layout="@layout/browse_loading" />
+    <include
+        layout="@layout/browse_loading"
+        android:visibility="gone" />
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
