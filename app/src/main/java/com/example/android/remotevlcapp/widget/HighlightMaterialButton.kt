@@ -2,23 +2,17 @@ package com.example.android.remotevlcapp.widget
 
 import android.content.Context
 import android.util.AttributeSet
-import androidx.appcompat.widget.AppCompatImageButton
-import androidx.core.content.res.ResourcesCompat
 import com.example.android.remotevlcapp.R
+import com.google.android.material.button.MaterialButton
 
-open class HighlightButton : AppCompatImageButton {
-
-    private val highlightColor =
-        ResourcesCompat.getColor(context.resources, R.color.highlight_button_color, context.theme)
-    private val defaultColor =
-        ResourcesCompat.getColor(context.resources, R.color.default_button_color, context.theme)
+open class HighlightMaterialButton : MaterialButton {
 
     var highlight = false
         set(value) {
             if (value == field) return
             field = value
-            if (highlight) setColorFilter(highlightColor)
-            else setColorFilter(defaultColor)
+            if (highlight) setIconTintResource(R.color.highlight_button_color)
+            else setIconTintResource(R.color.default_button_color)
         }
 
     constructor(context: Context) : super(context)

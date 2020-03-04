@@ -40,7 +40,7 @@
 
             <ImageButton
                 android:id="@+id/stop"
-                style="@style/Widget.ActionButton"
+                style="@style/Widget.RemoteVLCApp.ActionButton"
                 android:layout_width="48dp"
                 android:layout_height="match_parent"
                 android:contentDescription="@string/stop"
@@ -48,7 +48,7 @@
 
             <com.example.android.remotevlcapp.widget.PlayPauseButton
                 android:id="@+id/playPause"
-                style="@style/Widget.ActionButton"
+                style="@style/Widget.RemoteVLCApp.ActionButton"
                 android:layout_width="48dp"
                 android:layout_height="match_parent"
                 android:contentDescription="@string/play_pause"
@@ -56,7 +56,7 @@
 
             <ImageButton
                 android:id="@+id/next"
-                style="@style/Widget.ActionButton"
+                style="@style/Widget.RemoteVLCApp.ActionButton"
                 android:layout_width="48dp"
                 android:layout_height="match_parent"
                 android:contentDescription="@string/next"
@@ -79,7 +79,7 @@
 
             <com.example.android.remotevlcapp.widget.HighlightButton
                 android:id="@+id/fullscreen"
-                style="@style/Widget.ActionButton"
+                style="@style/Widget.RemoteVLCApp.ActionButton"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -88,7 +88,7 @@
 
             <com.example.android.remotevlcapp.widget.HighlightButton
                 android:id="@+id/shuffle"
-                style="@style/Widget.ActionButton"
+                style="@style/Widget.RemoteVLCApp.ActionButton"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -97,7 +97,7 @@
 
             <com.example.android.remotevlcapp.widget.RepeatButton
                 android:id="@+id/repeat"
-                style="@style/Widget.ActionButton"
+                style="@style/Widget.RemoteVLCApp.ActionButton"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -106,7 +106,7 @@
 
             <ImageButton
                 android:id="@+id/rewind"
-                style="@style/Widget.ActionButton"
+                style="@style/Widget.RemoteVLCApp.ActionButton"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -115,7 +115,7 @@
 
             <ImageButton
                 android:id="@+id/fast_forward"
-                style="@style/Widget.ActionButton"
+                style="@style/Widget.RemoteVLCApp.ActionButton"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"

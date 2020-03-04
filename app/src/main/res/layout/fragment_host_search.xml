@@ -6,16 +6,15 @@
     android:layout_height="match_parent">
 
     <com.google.android.material.appbar.AppBarLayout
-        style="@style/Widget.RemoteVLCApp.AppBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <androidx.appcompat.widget.Toolbar
+        <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?android:attr/actionBarSize"
             app:navigationIcon="@drawable/ic_arrow_back"
-            app:title="Search Host" />
+            app:title="@string/host_search_title" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -68,30 +67,28 @@
 
             <Button
                 android:id="@+id/retry"
-                style="@style/Widget.MaterialComponents.Button.TextButton"
+                style="@style/Widget.RemoteVLCApp.Button.TextButton"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="?android:attr/selectableItemBackground"
                 android:gravity="start|center_vertical"
-                android:paddingStart="16dp"
+                android:paddingStart="24dp"
                 android:paddingEnd="16dp"
-                android:text="@string/retry"
-                android:textColor="@color/white" />
+                android:text="@string/retry" />
 
             <Button
                 android:id="@+id/skip"
-                style="@style/Widget.MaterialComponents.Button.TextButton"
+                style="@style/Widget.RemoteVLCApp.Button.TextButton"
+                android:background="?android:attr/selectableItemBackground"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="?android:attr/selectableItemBackground"
-                android:drawableEnd="@drawable/ic_chevron_right"
+                android:text="@string/skip"
+                app:icon="@drawable/ic_chevron_right"
                 android:gravity="end|center_vertical"
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp"
-                android:text="@string/skip"
-                android:textColor="@color/white" />
+                app:iconGravity="end" />
 
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

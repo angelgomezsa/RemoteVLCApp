@@ -1,28 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="color_primary">@color/carolina_blue</color>
-    <color name="color_primary_dark">@color/cornflower_blue</color>
-    <color name="color_on_secondary">@color/black</color>
-
-    <color name="carolina_blue">#8ab4f8</color>
-    <color name="cornflower_blue">#669DF6</color>
+    <!-- Base Colors -->
     <color name="white">#FFFFFF</color>
     <color name="black">#000</color>
     <color name="transparent">#0fff</color>
+    <color name="light_blue">#42a5f5</color>
+    <color name="medium_blue">#2962ff</color>
+    <color name="dark_blue">#102030</color>
 
-    <color name="color_accent">?attr/colorAccent</color>
 
+    <!--    <color name="remote_btn">#102030</color>-->
+    <!--    <color name="remote_button_background">#202020</color>-->
+    <color name="remote_button_background">@color/dark_blue</color>
+
+    <color name="text_color_secondary_light">#d9d9d9</color>
+    <color name="text_color_secondary_dark">#aeaeae</color>
+
+    <color name="item_icon_background">#373737</color>
+    <color name="item_icon">#a4a4a4</color>
+    <color name="highlight_button_color">@color/color_primary</color>
     <color name="color_control_light">#2EFFFFFF</color> <!-- 18% white -->
-
     <!-- Scrim colors -->
     <color name="system_ui_scrim_light">#2EFFFFFF</color> <!-- 18% white -->
     <color name="system_ui_scrim_black">#B3000000</color> <!-- 70% black -->
 
+    <!-- Base Theme Colors -->
+    <color name="color_primary">@color/light_blue</color>
+    <color name="color_secondary">@color/medium_blue</color>
+    <color name="color_accent">@color/light_blue</color>
 
-    <color name="defaultButtonColor">@color/black</color>
-    <color name="highlightButtonColor">@color/color_primary</color>
-
-    <color name="item_icon_background">#373737</color>
-    <color name="item_icon">#a4a4a4</color>
-    <color name="remote_button_background">#202020</color>
+    <!-- Light Theme Colors -->
+    <color name="background_color">@color/white</color>
+    <color name="text_color_primary">@color/black</color>
+    <color name="text_color_secondary">@color/text_color_secondary_dark</color>
+    <color name="default_button_color">@color/black</color>
 </resources>

@@ -7,16 +7,15 @@
     tools:context=".ui.hosts.list.HostListFragment">
 
     <com.google.android.material.appbar.AppBarLayout
-        style="@style/Widget.RemoteVLCApp.AppBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <androidx.appcompat.widget.Toolbar
+        <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?android:attr/actionBarSize"
             app:navigationIcon="@drawable/ic_menu"
-            app:title="Hosts" />
+            app:title="@string/host_list_title" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -31,11 +30,11 @@
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"
+        style="@style/Widget.RemoteVLCApp.FloatingActionButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
         android:layout_margin="16dp"
-        android:src="@drawable/ic_add"
-        app:tint="@null" />
+        android:src="@drawable/ic_add" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

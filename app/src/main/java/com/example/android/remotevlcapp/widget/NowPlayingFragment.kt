@@ -39,6 +39,7 @@ class NowPlayingFragment : DaggerFragment(), MediaSeekBar.OnProgressChangeListen
 //        val behavior = BottomSheetBehavior.from<View>(view!!.findViewById(R.id.now_playing_sheet))
         val behavior = BottomSheetBehavior.from(view!!.findViewById(R.id.now_playing_sheet))
 
+        mediaSeekBar.setOnProgressChangeListener(this)
         behavior.state = STATE_HIDDEN
 
         viewModel.status.observe(viewLifecycleOwner, Observer {
@@ -47,7 +48,7 @@ class NowPlayingFragment : DaggerFragment(), MediaSeekBar.OnProgressChangeListen
                 title.text = status.filename?.toUri()?.lastPathSegment
                 mediaSeekBar.setMaxProgress(status.length)
                 mediaSeekBar.setProgress(status.time)
-                mediaSeekBar.setOnProgressChangeListener(this)
+
 
                 // There seems to be a bug when you set isHideable property to false
                 // it shows the expanded state for a moment and then goes back to collapsed

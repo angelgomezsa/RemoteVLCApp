@@ -8,16 +8,15 @@
     tools:context=".ui.hosts.configuration.HostConfigurationFragment">
 
     <com.google.android.material.appbar.AppBarLayout
-        style="@style/Widget.RemoteVLCApp.AppBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <androidx.appcompat.widget.Toolbar
+        <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?android:attr/actionBarSize"
             app:navigationIcon="@drawable/ic_arrow_back"
-            app:title="Host Configuration" />
+            app:title="@string/host_configuration_title" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -48,23 +47,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
-
-            <!--            <Button-->
-            <!--                android:id="@+id/previous"-->
-            <!--                style="@style/Widget.MaterialComponents.Button.TextButton"-->
-            <!--                android:background="?android:attr/selectableItemBackground"-->
-            <!--                android:textColor="@color/white"-->
-            <!--                android:layout_width="0dp"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                android:layout_weight="1"-->
-            <!--                android:gravity="start|center_vertical"-->
-            <!--                android:paddingStart="16dp"-->
-            <!--                android:paddingEnd="16dp"-->
-            <!--                android:text="Previous" />-->
+            android:layout_gravity="bottom">
 
             <Space
                 android:layout_width="0dp"
@@ -73,16 +56,14 @@
 
             <Button
                 android:id="@+id/save"
-                style="@style/Widget.MaterialComponents.Button.TextButton"
+                style="@style/Widget.RemoteVLCApp.Button.TextButton"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="?android:attr/selectableItemBackground"
                 android:gravity="end|center_vertical"
                 android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-                android:text="@string/save"
-                android:textColor="@color/white" />
+                android:paddingEnd="24dp"
+                android:text="@string/save" />
 
         </LinearLayout>
 

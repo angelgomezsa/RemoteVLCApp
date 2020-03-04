@@ -4,23 +4,23 @@
 
     <TextView
         android:id="@+id/timeText"
-        android:layout_width="wrap_content"
+        android:layout_width="40dp"
         android:layout_height="wrap_content"
         android:textAlignment="center"
         tools:text="00:00" />
 
-    <SeekBar
-        android:id="@+id/seekBar"
+    <com.google.android.material.slider.Slider
+        android:id="@+id/slider"
+        style="@style/Widget.RemoteVLCApp.Slider"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_margin="4dp"
-        android:layout_weight="1" />
+        android:layout_weight="1"
+        android:stepSize="1" />
 
     <TextView
         android:id="@+id/lengthText"
-        android:layout_width="wrap_content"
+        android:layout_width="40dp"
         android:layout_height="wrap_content"
         android:textAlignment="center"
         tools:text="1:00:00" />
-
 </merge>

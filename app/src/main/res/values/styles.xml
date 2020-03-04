@@ -1,67 +1,136 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <item name="colorPrimary">@color/color_primary</item>
-        <item name="colorPrimaryDark">@color/system_ui_scrim_black</item>
-        <item name="colorSecondary">?attr/colorPrimary</item>
-        <item name="colorOnSecondary">@color/color_on_secondary</item>
+    <style name="Widget.RemoteVLCApp" parent="@android:style/Widget.Material" />
 
-        <!-- Window decor -->
-        <item name="android:navigationBarColor">@color/system_ui_scrim_black</item>
-
-        <!-- Widgets -->
-        <item name="toolbarStyle">@style/Widget.RemoteVLCApp.Toolbar</item>
+    <!-- AppBar Layout -->
+    <style name="Widget.RemoteVLCApp.AppBar" parent="Widget.MaterialComponents.AppBarLayout.Primary">
+        <item name="android:background">@color/background_color</item>
     </style>
 
-    <style name="Widget" />
-
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
-
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
-
-    <style name="ThemeOverlay.RemoteVLCApp.Dark" parent="ThemeOverlay.MaterialComponents.Dark">
-        <item name="colorPrimary">@color/carolina_blue</item>
-        <item name="colorPrimaryDark">@color/cornflower_blue</item>
-    </style>
-
-    <style name="TextAppearance.RemoteVLCApp.ToolbarTitle" parent="@style/TextAppearance.Widget.AppCompat.Toolbar.Title">
-        <item name="android:fontFamily">@font/google_sans</item>
+    <!-- Toolbar -->
+    <style name="TextAppearance.RemoteVLCApp.ToolbarTitle" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
         <item name="android:textSize" tools:ignore="SpUsage">20dp</item>
     </style>
 
-    <style name="Widget.RemoteVLCApp.AppBar" parent="@style/Widget.Design.AppBarLayout">
-        <item name="android:background">?attr/colorSurface</item>
-        <item name="android:elevation">8dp</item>
+    <style name="ThemeOverlay.RemoteVLCApp.Toolbar" parent="ThemeOverlay.MaterialComponents.Toolbar.Primary">
+        <item name="colorOnPrimary">@color/text_color_primary</item>
     </style>
 
     <style name="Widget.RemoteVLCApp.Toolbar" parent="Widget.MaterialComponents.Toolbar">
         <item name="android:paddingEnd">8dp</item>
         <item name="titleTextAppearance">@style/TextAppearance.RemoteVLCApp.ToolbarTitle</item>
+        <item name="materialThemeOverlay">@style/ThemeOverlay.RemoteVLCApp.Toolbar</item>
     </style>
 
-    <style name="Widget.TextInputEditText">
+    <!-- TextInputLayout -->
+    <style name="Widget.RemoteVLCApp.TextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.FilledBox">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.RemoteVLCApp.TextInputEditText</item>
+        <item name="boxBackgroundColor">@null</item>
+    </style>
+
+    <style name="ThemeOverlay.RemoteVLCApp.TextInputEditText" parent="ThemeOverlay.MaterialComponents.TextInputEditText">
+        <item name="editTextStyle">@style/Widget.RemoteVLCApp.TextInputEditText</item>
+    </style>
+
+    <style name="Widget.RemoteVLCApp.TextInputEditText" parent="Base.Widget.MaterialComponents.TextInputEditText">
         <item name="android:background">@color/transparent</item>
         <item name="android:paddingStart">0dp</item>
         <item name="android:paddingEnd">0dp</item>
+        <item name="android:paddingBottom">4dp</item>
+        <item name="android:paddingTop">28dp</item>
         <item name="android:singleLine">true</item>
     </style>
 
-    <style name="Widget.ActionButton" parent="Widget.AppCompat.Button.Borderless">
-        <item name="android:tint">@color/defaultButtonColor</item>
+    <!-- Buttons  -->
+    <style name="Widget.RemoteVLCApp.IconButton" parent="Widget.MaterialComponents.Button.Icon">
+        <item name="android:stateListAnimator">@null</item>
+        <item name="elevation">0dp</item>
+        <item name="backgroundTint">@color/transparent</item>
+        <item name="iconTint">@color/default_button_color</item>
+        <item name="iconPadding">0dp</item>
+        <item name="iconGravity">textStart</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+        <item name="android:insetLeft">0dp</item>
+        <item name="android:insetRight">0dp</item>
+        <item name="rippleColor">@drawable/button_ripple</item>
     </style>
 
-    <style name="Widget.RemoteButton" parent="Widget.ActionButton">
+
+    <style name="Widget.RemoteVLCApp.ActionButton" parent="Widget.AppCompat.Button.Borderless">
+        <item name="android:tint">@color/default_button_color</item>
+    </style>
+
+
+    <style name="Widget.RemoteVLCApp.PlaybackButton" parent="Widget.RemoteVLCApp.IconButton">
+        <item name="android:layout_marginTop">6dp</item>
+        <item name="android:layout_marginBottom">6dp</item>
+        <item name="android:layout_marginLeft">4dp</item>
+        <item name="android:layout_marginRight">4dp</item>
+    </style>
+
+
+    <style name="Widget.RemoteVLCApp.RemoteButton2" parent="Widget.RemoteVLCApp.IconButton">
+        <item name="backgroundTint">@color/remote_button_background</item>
+        <item name="android:layout_margin">6dp</item>
+    </style>
+
+    <style name="Widget.RemoteVLCApp.RemoteButton" parent="Widget.RemoteVLCApp.ActionButton">
         <item name="android:background">@drawable/remote_button_ripple</item>
         <item name="android:layout_margin">6dp</item>
     </style>
 
-    <style name="Widget.GridNavigationButton" parent="Widget.AppCompat.Button.Borderless">
-        <item name="android:tint">@color/color_primary</item>
+    <style name="Widget.RemoteVLCApp.GridNavigationButton" parent="Widget.RemoteVLCApp.IconButton">
+        <item name="backgroundTint">@color/remote_button_background</item>
+        <item name="iconTint">?attr/colorPrimary</item>
         <item name="android:layout_rowWeight">1</item>
         <item name="android:layout_columnWeight">1</item>
         <item name="android:layout_margin">4dp</item>
-        <item name="android:background">@drawable/remote_button_ripple</item>
+    </style>
+
+    <!-- Floating Action Button -->
+    <style name="Widget.RemoteVLCApp.FloatingActionButton" parent="Widget.MaterialComponents.FloatingActionButton">
+        <item name="tint">@color/white</item>
+    </style>
+
+    <!-- Text Button -->
+    <style name="TextAppearance.RemoteVLCApp.Button" parent="TextAppearance.MaterialComponents.Button">
+        <item name="fontFamily">@font/google_sans</item>
+        <item name="android:fontFamily">@font/google_sans</item>
+    </style>
+
+    <!--    <style name="ThemeOverlay.RemoteVLCApp.Button.TextButton" parent="">-->
+    <!--        <item name="colorPrimary">@color/text_color_primary</item>-->
+    <!--    </style>-->
+
+    <style name="Widget.RemoteVLCApp.Button.TextButton" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="android:textAppearance">@style/TextAppearance.RemoteVLCApp.Button</item>
+        <item name="android:textColor">@color/text_color_primary</item>
+        <!--        <item name="materialThemeOverlay">@style/ThemeOverlay.RemoteVLCApp.Button.TextButton</item>-->
+    </style>
+
+    <!-- Slider -->
+    <style name="Widget.RemoteVLCApp.Slider" parent="Widget.MaterialComponents.Slider">
+        <item name="thumbRadius">6dp</item>
+        <item name="haloRadius">18dp</item>
+        <item name="trackHeight">2dp</item>
+        <item name="labelStyle">@style/Widget.RemoteVLCApp.SliderLabel</item>
+    </style>
+
+    <style name="Widget.RemoteVLCApp.SliderLabel" parent="Widget.MaterialComponents.Tooltip">
+        <item name="android:textAppearance">@style/TextAppearance.RemoteVLCApp.Label</item>
+        <item name="shapeAppearance">@style/ShapeAppearance.RemoteVLCApp.Label</item>
+    </style>
+
+    <style name="ShapeAppearance.RemoteVLCApp.Label" parent="">
+        <item name="cornerSize">16dp</item>
+    </style>
+
+    <style name="TextAppearance.RemoteVLCApp.Label" parent="TextAppearance.MaterialComponents.Tooltip">
+        <item name="fontFamily">@font/google_sans</item>
+        <item name="android:fontFamily">@font/google_sans</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/text_color_primary</item>
     </style>
 
 </resources>

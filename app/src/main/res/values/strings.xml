@@ -1,5 +1,5 @@
 <resources>
-    <!--    <string name="app_name">RemoteVLCApp</string>-->
+    <string name="app_name">RemoteVLCApp</string>
     <string name="nav_header_title">Android Studio</string>
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
@@ -10,10 +10,17 @@
     <string name="nav_media_centers">Media Centers</string>
     <string name="nav_settings">Settings</string>
 
+    <!-- Toolbar Titles   -->
+    <string name="remote_title">Remote</string>
+    <string name="host_list_title">Hosts</string>
+    <string name="host_search_title">Host Search</string>
+    <string name="host_configuration_title">Host Configuration</string>
+    <string name="settings_title">Settings</string>
+
     <!--  Player Buttons  -->
-    <!--    <string name="rewind">Rewind</string>-->
-    <!--    <string name="fast_forward">Fast forward</string>-->
-    <!--    <string name="stop">Stop</string>-->
+    <string name="rewind">Rewind</string>
+    <string name="fast_forward">Fast forward</string>
+    <string name="stop">Stop</string>
     <!--    <string name="play_pause">Play pause</string>-->
     <string name="previous">Previous</string>
     <string name="next">Next</string>
@@ -25,6 +32,8 @@
     <string name="aspect_ratio">Aspect ratio</string>
     <string name="subtitle_track">Subtitle track</string>
     <string name="audio_track">Audio track</string>
+    <string name="volume_down">Volume down</string>
+    <string name="volume_up">Volume up</string>
 
     <!--  Navigation Buttons  -->
     <string name="navigate_up">Navigate up</string>
@@ -42,14 +51,9 @@
     <string name="not_connected">Not connected</string>
     <string name="select_add_media_center">Please, select or add a media center</string>
 
-    <!--  Host List  -->
-    <string name="host_delete_dialog_title">Delete media center</string>
-    <string name="host_delete_dialog_msg">Are you sure?</string>
-
     <!--  Host Search  -->
     <string name="searching_hosts">Searching for media centers on your local network…</string>
     <string name="found_hosts">Found these media centers on your network.\n\nSelect one to add or press \'Skip\' to manually add a new one.</string>
-    <string name="password_dialog_title">Enter password</string>
     <string name="retry">Retry</string>
     <string name="skip">Skip</string>
 
@@ -62,6 +66,10 @@
     <string name="password_error_msg">Please, enter a password</string>
     <string name="connect_dialog_message">Checking the connection with your media center</string>
     <string name="save">Save</string>
+    <string name="name_hint">Name</string>
+    <string name="address_hint">Address</string>
+    <string name="port_hint">Port</string>
+    <string name="password_hint">Password</string>
 
     <!--  Settings  -->
     <string name="application">Application</string>
@@ -71,6 +79,15 @@
     <string name="theme_dialog_title">Choose theme</string>
 
     <!-- Browse  -->
-    <string name="browse_no_connection">No connection. \n\nPlease check your media center configuration or connection</string>
+    <string name="browse_no_connection">No connection. \n\nPlease check your media center configuration or connection.</string>
     <string name="browse_loading">Loading… \n\nThis screen will be automatically updated when it finishes.</string>
+
+    <!-- Dialogs  -->
+    <string name="password_dialog_title">Enter password</string>
+    <string name="password_dialog_msg">Enter the password set in VLC preferences:</string>
+    <string name="password_dialog_hint">Password</string>
+
+    <string name="host_delete_dialog_title">Delete media center</string>
+    <string name="host_delete_dialog_msg">Are you sure?</string>
+
 </resources>
