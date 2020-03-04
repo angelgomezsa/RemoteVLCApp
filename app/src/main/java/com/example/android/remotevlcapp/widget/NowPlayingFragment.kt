@@ -11,12 +11,14 @@ import com.example.android.core.result.Result
 import com.example.android.model.VLCPlayer
 import com.example.android.remotevlcapp.R
 import com.example.android.remotevlcapp.ui.MainActivityViewModel
-import com.example.android.remotevlcapp.widget.BottomSheetBehavior.Companion.STATE_HIDDEN
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetBehavior.*
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.fragment_now_playing.*
 import javax.inject.Inject
 
-class NowPlayingFragment : DaggerFragment(), MediaSeekBar.OnProgressChangeListener {
+class NowPlayingFragment : DaggerFragment(),
+    MediaSlider.OnProgressChangeListener {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -28,44 +30,41 @@ class NowPlayingFragment : DaggerFragment(), MediaSeekBar.OnProgressChangeListen
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        viewModel = ViewModelProvider(requireActivity(), viewModelFactory)
+            .get(MainActivityViewModel::class.java)
+
         return inflater.inflate(R.layout.fragment_now_playing, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(requireActivity(), viewModelFactory)
-            .get(MainActivityViewModel::class.java)
-
-//        val behavior = BottomSheetBehavior.from<View>(view!!.findViewById(R.id.now_playing_sheet))
-        val behavior = BottomSheetBehavior.from(view!!.findViewById(R.id.now_playing_sheet))
-
-        mediaSeekBar.setOnProgressChangeListener(this)
-        behavior.state = STATE_HIDDEN
+        val nowPlayingSheet = view!!.findViewById<View>(R.id.now_playing_sheet)
+        val behavior = BottomSheetBehavior.from(nowPlayingSheet).apply {
+            state = STATE_HIDDEN
+        }
 
         viewModel.status.observe(viewLifecycleOwner, Observer {
             if (it is Result.Success) {
                 val status = it.data
                 title.text = status.filename?.toUri()?.lastPathSegment
-                mediaSeekBar.setMaxProgress(status.length)
-                mediaSeekBar.setProgress(status.time)
+                media_slider.setMaxProgress(status.length)
+                media_slider.setProgress(status.time)
 
-
-                // There seems to be a bug when you set isHideable property to false
-                // it shows the expanded state for a moment and then goes back to collapsed
-                // state - using BottomSheetBehavior implementation from
-                // the Google I/O 2019 app solves the bug - update pending.
                 when (status.state) {
                     VLCPlayer.State.STOPPED -> {
-                        behavior.isHideable = true
                         behavior.state = STATE_HIDDEN
                         playPause.isPlaying = false
                     }
                     VLCPlayer.State.PAUSED -> {
-                        behavior.isHideable = false
+                        if (behavior.state == STATE_HIDDEN) {
+                            behavior.state = STATE_COLLAPSED
+                        }
                         playPause.isPlaying = false
                     }
                     VLCPlayer.State.PLAYING -> {
-                        behavior.isHideable = false
+                        if (behavior.state == STATE_HIDDEN) {
+                            behavior.state = STATE_COLLAPSED
+                        }
                         playPause.isPlaying = true
                     }
                 }
@@ -80,10 +79,18 @@ class NowPlayingFragment : DaggerFragment(), MediaSeekBar.OnProgressChangeListen
                 fullscreen.highlight = status.fullscreen
                 shuffle.highlight = status.random
             } else {
-                behavior.isHideable = true
                 behavior.state = STATE_HIDDEN
             }
         })
+
+        title.setOnClickListener {
+            when (behavior.state) {
+                STATE_COLLAPSED -> behavior.state = STATE_EXPANDED
+                STATE_EXPANDED -> behavior.state = STATE_COLLAPSED
+            }
+        }
+
+        media_slider.setOnProgressChangeListener(this)
 
         stop.setOnClickListener {
             viewModel.sendCommand(VLCPlayer.Command.STOP)

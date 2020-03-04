@@ -103,21 +103,14 @@
         layout="@layout/browse_loading"
         android:visibility="gone" />
 
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
+    <fragment
+        android:id="@+id/now_playing_sheet"
+        android:name="com.example.android.remotevlcapp.widget.NowPlayingFragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom">
-
-        <fragment
-            android:id="@+id/now_playing_sheet"
-            android:name="com.example.android.remotevlcapp.widget.NowPlayingFragment"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:behavior_hideable="true"
-            app:behavior_peekHeight="56dp"
-            app:layout_behavior="com.example.android.remotevlcapp.widget.BottomSheetBehavior"
-            tools:layout="@layout/fragment_now_playing" />
-
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+        app:behavior_hideable="true"
+        app:behavior_peekHeight="56dp"
+        app:layout_behavior="@string/bottom_sheet_behavior"
+        tools:layout="@layout/fragment_now_playing" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

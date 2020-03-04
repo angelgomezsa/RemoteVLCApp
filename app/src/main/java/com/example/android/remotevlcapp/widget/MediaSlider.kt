@@ -26,7 +26,6 @@ class MediaSlider : LinearLayoutCompat {
     init {
         val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         inflater.inflate(R.layout.media_slider, this, true)
-
         slider.setLabelFormatter { value -> formatTime(value.toInt()) }
 
         slider.addOnChangeListener { _, value, _ ->

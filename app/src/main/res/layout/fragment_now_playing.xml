@@ -2,10 +2,11 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_height="wrap_content">
 
     <LinearLayout
-        android:id="@+id/now_playing_sheet"
+        android:id="@+id/now_playing_sheet_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/fragment_background"
@@ -20,7 +21,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="56dp"
-            android:background="@color/item_icon_background"
+            android:background="?attr/colorOnBackground"
             android:orientation="horizontal">
 
             <TextView
@@ -36,36 +37,36 @@
                 android:textAppearance="?textAppearanceListItem"
                 android:textSize="14sp"
                 android:textStyle="bold"
-                tools:text="Movie title" />
+                tools:text="File name" />
 
-            <ImageButton
+            <Button
                 android:id="@+id/stop"
-                style="@style/Widget.RemoteVLCApp.ActionButton"
+                style="@style/Widget.RemoteVLCApp.IconButton"
                 android:layout_width="48dp"
                 android:layout_height="match_parent"
                 android:contentDescription="@string/stop"
-                android:src="@drawable/ic_stop" />
+                app:icon="@drawable/ic_stop" />
 
-            <com.example.android.remotevlcapp.widget.PlayPauseButton
+            <com.example.android.remotevlcapp.widget.PlayPauseMaterialButton
                 android:id="@+id/playPause"
-                style="@style/Widget.RemoteVLCApp.ActionButton"
+                style="@style/Widget.RemoteVLCApp.IconButton"
                 android:layout_width="48dp"
                 android:layout_height="match_parent"
                 android:contentDescription="@string/play_pause"
-                android:src="@drawable/avd_play_to_pause" />
+                app:icon="@drawable/ic_play" />
 
-            <ImageButton
+            <Button
                 android:id="@+id/next"
-                style="@style/Widget.RemoteVLCApp.ActionButton"
+                style="@style/Widget.RemoteVLCApp.IconButton"
                 android:layout_width="48dp"
                 android:layout_height="match_parent"
                 android:contentDescription="@string/next"
-                android:src="@drawable/ic_skip_next" />
+                app:icon="@drawable/ic_skip_next" />
 
         </LinearLayout>
 
-        <com.example.android.remotevlcapp.widget.MediaSeekBar
-            android:id="@+id/mediaSeekBar"
+        <com.example.android.remotevlcapp.widget.MediaSlider
+            android:id="@+id/media_slider"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:gravity="center_vertical"
@@ -77,51 +78,51 @@
             android:layout_height="48dp"
             android:orientation="horizontal">
 
-            <com.example.android.remotevlcapp.widget.HighlightButton
+            <com.example.android.remotevlcapp.widget.HighlightMaterialButton
                 android:id="@+id/fullscreen"
-                style="@style/Widget.RemoteVLCApp.ActionButton"
+                style="@style/Widget.RemoteVLCApp.PlaybackButton"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:contentDescription="@string/fullscreen"
-                android:src="@drawable/ic_fullscreen" />
+                app:icon="@drawable/ic_fullscreen"
+                app:iconSize="28dp" />
 
-            <com.example.android.remotevlcapp.widget.HighlightButton
+            <com.example.android.remotevlcapp.widget.HighlightMaterialButton
                 android:id="@+id/shuffle"
-                style="@style/Widget.RemoteVLCApp.ActionButton"
+                style="@style/Widget.RemoteVLCApp.PlaybackButton"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:contentDescription="@string/random"
-                android:src="@drawable/ic_shuffle" />
+                app:icon="@drawable/ic_shuffle" />
 
             <com.example.android.remotevlcapp.widget.RepeatButton
                 android:id="@+id/repeat"
-                style="@style/Widget.RemoteVLCApp.ActionButton"
+                style="@style/Widget.RemoteVLCApp.PlaybackButton"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:contentDescription="@string/repeat"
-                android:src="@drawable/ic_repeat" />
+                app:icon="@drawable/ic_repeat" />
 
-            <ImageButton
+            <Button
                 android:id="@+id/rewind"
-                style="@style/Widget.RemoteVLCApp.ActionButton"
+                style="@style/Widget.RemoteVLCApp.PlaybackButton"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:contentDescription="@string/rewind"
-                android:src="@drawable/ic_fast_rewind" />
+                app:icon="@drawable/ic_fast_rewind" />
 
-            <ImageButton
+            <Button
                 android:id="@+id/fast_forward"
-                style="@style/Widget.RemoteVLCApp.ActionButton"
+                style="@style/Widget.RemoteVLCApp.PlaybackButton"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:contentDescription="@string/fast_forward"
-                android:src="@drawable/ic_fast_forward" />
-
+                app:icon="@drawable/ic_fast_forward" />
         </LinearLayout>
     </LinearLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

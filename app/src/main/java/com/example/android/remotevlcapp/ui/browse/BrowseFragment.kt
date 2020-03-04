@@ -17,11 +17,9 @@ import com.example.android.model.FileInfo
 import com.example.android.remotevlcapp.R
 import com.example.android.remotevlcapp.ui.MainNavigationFragment
 import com.example.android.remotevlcapp.util.dpToPx
-import com.example.android.remotevlcapp.widget.BottomSheetBehavior
-import com.example.android.remotevlcapp.widget.BottomSheetBehavior.Companion.STATE_COLLAPSED
-import com.example.android.remotevlcapp.widget.BottomSheetBehavior.Companion.STATE_EXPANDED
 import com.google.android.material.appbar.AppBarLayout
-import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_HIDDEN
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetBehavior.*
 import kotlinx.android.synthetic.main.browse_loading.*
 import kotlinx.android.synthetic.main.browse_no_connection.*
 import kotlinx.android.synthetic.main.fragment_browse.*
@@ -35,9 +33,10 @@ class BrowseFragment : MainNavigationFragment(), BrowseAdapter.OnFileClickListen
 
     private lateinit var viewModel: BrowseViewModel
     private lateinit var browseAdapter: BrowseAdapter
-    private lateinit var behavior: BottomSheetBehavior<*>
+    private lateinit var behavior: BottomSheetBehavior<View>
 
     private var toolbarTitle: String = ""
+    private var isTitleDisplayed = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,8 +63,8 @@ class BrowseFragment : MainNavigationFragment(), BrowseAdapter.OnFileClickListen
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-//        val behavior = BottomSheetBehavior.from<View>(view.findViewById(R.id.now_playing_sheet))
-        behavior = BottomSheetBehavior.from(view.findViewById(R.id.now_playing_sheet))
+        val nowPlayingSheet = view.findViewById<View>(R.id.now_playing_sheet)
+        behavior = BottomSheetBehavior.from(nowPlayingSheet)
 
         browseAdapter = BrowseAdapter(this)
         browse_recyclerView.adapter = browseAdapter
@@ -77,10 +76,12 @@ class BrowseFragment : MainNavigationFragment(), BrowseAdapter.OnFileClickListen
         appBarLayout.addOnOffsetChangedListener(object : AppBarLayout.OnOffsetChangedListener {
             val triggerHeight = dpToPx(context!!, 80f)
             override fun onOffsetChanged(appBarLayout: AppBarLayout, verticalOffset: Int) {
-                if (abs(verticalOffset) >= triggerHeight) {
+                if (abs(verticalOffset) >= triggerHeight && !isTitleDisplayed) {
                     toolbar.title = toolbarTitle
-                } else if (abs(verticalOffset) < triggerHeight) {
+                    isTitleDisplayed = true
+                } else if (abs(verticalOffset) < triggerHeight && isTitleDisplayed) {
                     toolbar.title = ""
+                    isTitleDisplayed = false
                 }
             }
         })
@@ -105,7 +106,7 @@ class BrowseFragment : MainNavigationFragment(), BrowseAdapter.OnFileClickListen
             duration = 200L
         }
 
-        behavior.addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback {
+        behavior.addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
             override fun onStateChanged(bottomSheet: View, newState: Int) {
                 when (newState) {
                     STATE_COLLAPSED -> {

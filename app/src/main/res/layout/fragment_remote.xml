@@ -198,7 +198,7 @@
                     android:layout_weight="1"
                     android:contentDescription="@string/fullscreen"
                     app:icon="@drawable/ic_fullscreen"
-                    app:iconSize="32dp" />
+                    app:iconSize="28dp" />
 
                 <Button
                     android:id="@+id/aspect_ratio"
