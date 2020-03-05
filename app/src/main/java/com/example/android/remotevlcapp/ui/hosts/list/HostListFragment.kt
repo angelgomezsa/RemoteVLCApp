@@ -86,11 +86,11 @@ class HostListFragment : MainNavigationFragment(), HostListAdapter.OnHostClickLi
     class HostDeleteDialog(private val host: HostInfo) : DialogFragment() {
         override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
             return MaterialAlertDialogBuilder(context)
-                .setTitle(context?.getString(R.string.host_delete_dialog_title))
-                .setMessage(context?.getString(R.string.host_delete_dialog_msg))
+                .setTitle(R.string.host_delete_dialog_title)
+                .setMessage(R.string.host_delete_dialog_msg)
                 .setPositiveButton(android.R.string.yes) { _, _ ->
-                    val frag = parentFragment as HostListFragment
-                    frag.viewModel.deleteHost(host)
+                    val viewModel = (parentFragment as HostListFragment).viewModel
+                    viewModel.deleteHost(host)
                 }
                 .setNegativeButton(android.R.string.no, null)
                 .create()

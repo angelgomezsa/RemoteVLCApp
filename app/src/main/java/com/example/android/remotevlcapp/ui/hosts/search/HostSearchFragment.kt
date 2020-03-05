@@ -1,12 +1,12 @@
 package com.example.android.remotevlcapp.ui.hosts.search
 
-import android.annotation.SuppressLint
 import android.app.Dialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -103,19 +103,18 @@ class HostSearchFragment : MainNavigationFragment(), HostSearchAdapter.OnHostCli
     }
 
     class PasswordDialog(private val host: HostInfo) : DialogFragment() {
-        @SuppressLint("InflateParams")
         override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-            val view =
-                requireParentFragment().layoutInflater.inflate(R.layout.dialog_password, null)
-
-            return MaterialAlertDialogBuilder(context)
-                .setTitle(context?.getText(R.string.password_dialog_title))
-                .setView(view)
-                .setPositiveButton(android.R.string.ok) { _, _ ->
-                    val password = view.findViewById<TextInputEditText>(R.id.passwordInput)
-                    val frag = parentFragment as HostSearchFragment
-                    host.password = password.text.toString()
-                    frag.viewModel.checkHostConnection(host)
+            return MaterialAlertDialogBuilder(requireContext())
+                .setTitle(R.string.password_dialog_title)
+                .setMessage(R.string.password_dialog_msg)
+                .setView(R.layout.dialog_password)
+                .setPositiveButton(android.R.string.ok) { dialog, _ ->
+                    val passwordInput =
+                        (dialog as AlertDialog).findViewById<TextInputEditText>(R.id.passwordInput)
+                    val password = passwordInput?.text.toString()
+                    host.password = password
+                    val viewModel = (parentFragment as HostSearchFragment).viewModel
+                    viewModel.checkHostConnection(host)
                 }
                 .setNegativeButton(android.R.string.cancel, null)
                 .create()

@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -28,6 +27,7 @@ class HostConfigurationFragment : MainNavigationFragment() {
 
     companion object {
         private const val CONNECTION_DIALOG = "connection_dialog"
+        private const val ERROR_DIALOG = "error_dialog"
     }
 
     @Inject
@@ -72,12 +72,10 @@ class HostConfigurationFragment : MainNavigationFragment() {
             when (exception) {
                 is UnknownHostException -> address.error = exception.message
                 is ConnectException,
-                is SocketTimeoutException -> Toast.makeText(
-                    context,
-                    context?.getString(R.string.unable_to_resolve_host_msg),
-                    Toast.LENGTH_SHORT
-                )
-                    .show()
+                is SocketTimeoutException -> {
+                    ErrorDialog(context!!.getString(R.string.unable_to_resolve_host_msg))
+                        .show(childFragmentManager, ERROR_DIALOG)
+                }
                 is AuthenticationException -> password.error = exception.message
             }
         })
@@ -113,7 +111,8 @@ class HostConfigurationFragment : MainNavigationFragment() {
             }
 
             val host = HostInfo(hostId, hostAddress, hostPort, hostPassword, hostName)
-            ConnectionDialog(host).show(childFragmentManager, CONNECTION_DIALOG)
+            val connectionDialog = ConnectionDialog(host).apply { isCancelable = false }
+            connectionDialog.show(childFragmentManager, CONNECTION_DIALOG)
         }
     }
 
@@ -131,22 +130,26 @@ class HostConfigurationFragment : MainNavigationFragment() {
 
     class ConnectionDialog(private val host: HostInfo) : DialogFragment() {
         override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-            val view =
-                requireParentFragment().layoutInflater.inflate(R.layout.dialog_connection, null)
-
-            val dialog = MaterialAlertDialogBuilder(context)
-                .setMessage(context?.getString(R.string.connect_dialog_message))
-                .setView(view)
-                .setCancelable(false)
+            val alertDialog = MaterialAlertDialogBuilder(context)
+                .setMessage(R.string.connect_dialog_message)
+                .setView(R.layout.dialog_connection)
                 .create()
 
-            dialog.setOnShowListener {
-                val frag = parentFragment as HostConfigurationFragment
-                frag.viewModel.checkHostConnection(host)
+            alertDialog.setOnShowListener {
+                val viewModel = (parentFragment as HostConfigurationFragment).viewModel
+                viewModel.checkHostConnection(host)
             }
 
-            dialog.setCanceledOnTouchOutside(false)
-            return dialog
+            return alertDialog
+        }
+    }
+
+    class ErrorDialog(private val message: String) : DialogFragment() {
+        override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+            return MaterialAlertDialogBuilder(context)
+                .setMessage(message)
+                .setPositiveButton(android.R.string.ok, null)
+                .create()
         }
     }
 }
