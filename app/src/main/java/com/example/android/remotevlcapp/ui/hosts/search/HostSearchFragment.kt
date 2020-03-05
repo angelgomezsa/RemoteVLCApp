@@ -37,7 +37,10 @@ class HostSearchFragment : MainNavigationFragment(), HostSearchAdapter.OnHostCli
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         sharedElementEnterTransition = MaterialContainerTransform(requireContext())
-        exitTransition = MaterialSharedAxis.create(requireContext(), MaterialSharedAxis.X, false)
+        exitTransition =
+            MaterialSharedAxis.create(requireContext(), MaterialSharedAxis.X, false).apply {
+                addTarget(R.id.host_search_root)
+            }
     }
 
     override fun onCreateView(
