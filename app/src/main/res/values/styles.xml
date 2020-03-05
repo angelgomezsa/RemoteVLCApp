@@ -3,7 +3,7 @@
     <style name="Widget.RemoteVLCApp" parent="@android:style/Widget.Material" />
 
     <!-- AppBar Layout -->
-    <style name="Widget.RemoteVLCApp.AppBar" parent="Widget.MaterialComponents.AppBarLayout.Primary">
+    <style name="Widget.RemoteVLCApp.AppBar" parent="Widget.Design.AppBarLayout">
         <item name="android:background">@color/background_color</item>
     </style>
 
@@ -20,6 +20,8 @@
         <item name="android:paddingEnd">8dp</item>
         <item name="titleTextAppearance">@style/TextAppearance.RemoteVLCApp.ToolbarTitle</item>
         <item name="materialThemeOverlay">@style/ThemeOverlay.RemoteVLCApp.Toolbar</item>
+        <!-- Toolbar should always be within an AppBarLayout which provides the background. -->
+        <item name="android:background">@null</item>
     </style>
 
     <!-- TextInputLayout -->

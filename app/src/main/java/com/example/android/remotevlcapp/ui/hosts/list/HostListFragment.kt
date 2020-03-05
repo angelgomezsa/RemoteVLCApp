@@ -8,11 +8,14 @@ import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import com.example.android.model.HostInfo
 import com.example.android.remotevlcapp.R
 import com.example.android.remotevlcapp.ui.MainNavigationFragment
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.transition.Hold
+import com.google.android.material.transition.MaterialSharedAxis
 import kotlinx.android.synthetic.main.fragment_host_list.*
 import javax.inject.Inject
 
@@ -47,11 +50,19 @@ class HostListFragment : MainNavigationFragment(), HostListAdapter.OnHostClickLi
         })
 
         fab.setOnClickListener {
-            findNavController().navigate(HostListFragmentDirections.toHostSearch())
+            val extras = FragmentNavigatorExtras(
+                it to "fab_to_host_search"
+            )
+            exitTransition = Hold()
+            findNavController().navigate(HostListFragmentDirections.toHostSearch(), extras)
         }
     }
 
     override fun onEdit(host: HostInfo) {
+        exitTransition =
+            MaterialSharedAxis.create(requireContext(), MaterialSharedAxis.X, false).apply {
+                addTarget(R.id.host_list_root)
+            }
         findNavController().navigate(
             HostListFragmentDirections.toHostConfiguration(
                 host.id,

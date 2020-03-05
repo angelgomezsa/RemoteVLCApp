@@ -4,6 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/host_list_root"
+    android:background="@color/background_color"
     tools:context=".ui.hosts.list.HostListFragment">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -30,6 +32,7 @@
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"
+        android:transitionName="fab_to_host_search"
         style="@style/Widget.RemoteVLCApp.FloatingActionButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

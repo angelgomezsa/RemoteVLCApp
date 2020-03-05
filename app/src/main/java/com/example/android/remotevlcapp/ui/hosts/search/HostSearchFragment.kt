@@ -18,6 +18,8 @@ import com.example.android.remotevlcapp.R
 import com.example.android.remotevlcapp.ui.MainNavigationFragment
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.transition.MaterialContainerTransform
+import com.google.android.material.transition.MaterialSharedAxis
 import kotlinx.android.synthetic.main.fragment_host_search.*
 import javax.inject.Inject
 
@@ -31,6 +33,12 @@ class HostSearchFragment : MainNavigationFragment(), HostSearchAdapter.OnHostCli
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
     private lateinit var viewModel: HostSearchViewModel
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        sharedElementEnterTransition = MaterialContainerTransform(requireContext())
+        exitTransition = MaterialSharedAxis.create(requireContext(), MaterialSharedAxis.X, false)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

@@ -15,6 +15,7 @@ import com.example.android.model.HostInfo
 import com.example.android.remotevlcapp.R
 import com.example.android.remotevlcapp.ui.MainNavigationFragment
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.transition.MaterialSharedAxis
 import kotlinx.android.synthetic.main.fragment_host_configuration.*
 import kotlinx.android.synthetic.main.host_form.*
 import timber.log.Timber
@@ -33,8 +34,16 @@ class HostConfigurationFragment : MainNavigationFragment() {
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
     private lateinit var viewModel: HostConfigurationViewModel
-
     private var hostId = 0
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        enterTransition =
+            MaterialSharedAxis.create(requireContext(), MaterialSharedAxis.X, true).apply {
+                addTarget(R.id.host_configuration_root)
+            }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
